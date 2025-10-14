@@ -1,8 +1,9 @@
 // Vercel Function for sending emails
 const sgMail = require('@sendgrid/mail');
 
-// CORSヘッダーを設定
+// CORSヘッダーを設定 + エラーハンドリング
 const allowCors = fn => async (req, res) => {
+  // CORSヘッダーを設定
   res.setHeader('Access-Control-Allow-Credentials', true);
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
@@ -11,32 +12,72 @@ const allowCors = fn => async (req, res) => {
     'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
   );
 
+  // OPTIONSリクエストの処理
   if (req.method === 'OPTIONS') {
     res.status(200).end();
     return;
   }
 
-  return await fn(req, res);
+  // エラーハンドリングをラップ
+  try {
+    return await fn(req, res);
+  } catch (unexpectedError) {
+    console.error('Unexpected error in handler:', unexpectedError);
+
+    // VercelのランタイムエラーもJSON形式で返す
+    if (!res.headersSent) {
+      res.status(500).json({
+        success: false,
+        error: 'サーバーエラーが発生しました',
+        details: unexpectedError.message || 'Unexpected server error',
+        timestamp: new Date().toISOString()
+      });
+    }
+  }
 };
 
 const handler = async (req, res) => {
+  console.log('Email API called:', req.method);
+  console.log('Request headers:', req.headers);
+
   // POSTメソッドのみ許可
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
   try {
-    // 環境変数チェック
+    // 環境変数の詳細なチェック
+    console.log('Environment check:');
+    console.log('- SENDGRID_API_KEY exists:', !!process.env.SENDGRID_API_KEY);
+    console.log('- SENDGRID_API_KEY length:', process.env.SENDGRID_API_KEY?.length);
+    console.log('- SENDGRID_FROM_EMAIL:', process.env.SENDGRID_FROM_EMAIL);
+
     if (!process.env.SENDGRID_API_KEY) {
       console.error('SENDGRID_API_KEY is not set');
       return res.status(500).json({
         success: false,
-        error: 'メール送信の設定が正しくありません'
+        error: 'メール送信の設定が正しくありません（APIキー未設定）'
+      });
+    }
+
+    if (!process.env.SENDGRID_FROM_EMAIL) {
+      console.error('SENDGRID_FROM_EMAIL is not set');
+      return res.status(500).json({
+        success: false,
+        error: 'メール送信の設定が正しくありません（送信元メール未設定）'
       });
     }
 
     // SendGrid設定
     sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+
+    // リクエストボディの検証
+    if (!req.body) {
+      return res.status(400).json({
+        success: false,
+        error: 'リクエストボディが空です'
+      });
+    }
 
     const { email, formData, respondentId } = req.body;
 
@@ -57,13 +98,19 @@ const handler = async (req, res) => {
     const msg = {
       to: email,
       from: {
-        email: process.env.SENDGRID_FROM_EMAIL || 'noreply@example.com',
+        email: process.env.SENDGRID_FROM_EMAIL,
         name: '全日本トラック協会 女性部会'
       },
       subject: '【全日本トラック協会】アンケート回答確認',
       text: emailContent.text,
       html: emailContent.html
     };
+
+    console.log('Sending email with config:', {
+      to: msg.to,
+      from: msg.from.email,
+      subject: msg.subject
+    });
 
     // SendGridでメール送信
     const result = await sgMail.send(msg);
@@ -76,16 +123,29 @@ const handler = async (req, res) => {
 
   } catch (error) {
     console.error('Email sending error:', error);
-    console.error('Error response:', error.response?.body);
+    console.error('Error stack:', error.stack);
+
+    if (error.response) {
+      console.error('SendGrid error response:', error.response.body);
+      console.error('SendGrid error status:', error.response.statusCode);
+    }
 
     // SendGridのエラーの詳細を取得
-    const errorMessage = error.response?.body?.errors?.[0]?.message || error.message;
+    let errorDetails = 'Unknown error';
+    if (error.response?.body?.errors?.[0]?.message) {
+      errorDetails = error.response.body.errors[0].message;
+    } else if (error.message) {
+      errorDetails = error.message;
+    }
 
-    // エラーレスポンス
+    console.error('Error details:', errorDetails);
+
+    // 常にJSON形式でレスポンスを返す
     return res.status(500).json({
       success: false,
       error: 'メール送信に失敗しました',
-      details: errorMessage
+      details: errorDetails,
+      timestamp: new Date().toISOString()
     });
   }
 };
