@@ -3,6 +3,7 @@ import { DocumentTextIcon, ClockIcon, ShieldCheckIcon } from '@heroicons/react/2
 import Header from '../components/layout/Header'
 import Footer from '../components/layout/Footer'
 import Button from '../components/common/Button'
+import TestConnection from '../components/TestConnection'
 
 const TopPage = () => {
   const navigate = useNavigate()
