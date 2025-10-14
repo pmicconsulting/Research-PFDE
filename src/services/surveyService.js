@@ -15,15 +15,15 @@ export const saveSurveyResponse = async (formData) => {
 
     // ブロック1のデータ整形
     const block1Data = {
-      q1_company_name: formData.companyName || null,  // 問1の会社名
-      q2_prefecture: formData.prefecture || null,     // 問1の都道府県
-      q2_city: formData.city || null,                // 問1の市区町村（現在はないので null）
-      q3_business_type: null,  // 問2の事業形態は checkbox なので、別途処理が必要
-      q3_other_text: formData.q2_other || null,      // 問2のその他
-      q4_employment_status: formData.q4 || null      // 問4の雇用状況
+      q1_company_name: formData.companyName || null,  // 問の会社名
+      q2_prefecture: formData.prefecture || null,     // 問の都道府県
+      q2_city: formData.city || null,                // 問の市区町村（現在はないので null）
+      q3_business_type: null,  // 問の事業形態は checkbox なので、別途処理が必要
+      q3_other_text: formData.q2_other || null,      // 問のその他
+      q4_employment_status: formData.q4 || null      // 問の雇用状況
     }
 
-    // 問2（事業形態）の処理 - チェックボックスから最初の選択を取得
+    // 問（事業形態）の処理 - チェックボックスから最初の選択を取得
     if (formData.q2 && Array.isArray(formData.q2) && formData.q2.length > 0) {
       // データベースの制約に合わせて値を変換
       const businessTypeMap = {
@@ -46,7 +46,7 @@ export const saveSurveyResponse = async (formData) => {
     let block2Data = null
     if (formData.q4 === 'currently_employed') {
       block2Data = {
-        // 問1: 車種別女性ドライバー数
+        // 問: 車種別女性ドライバー数
         q1_large_truck_20s: parseInt(formData.b2q1?.large_truck?.[0]) || 0,
         q1_large_truck_30s: parseInt(formData.b2q1?.large_truck?.[1]) || 0,
         q1_large_truck_40s: parseInt(formData.b2q1?.large_truck?.[2]) || 0,
@@ -83,7 +83,7 @@ export const saveSurveyResponse = async (formData) => {
         q1_trailer_50s: parseInt(formData.b2q1?.trailer?.[3]) || 0,
         q1_trailer_60s_plus: parseInt(formData.b2q1?.trailer?.[4]) || 0,
 
-        // 問2-9
+        // 問-9
         q2_cargo_characteristics: ensureArray(formData.b2q2),
         q2_cargo_other: formData.b2q2_other || null,
         q3_improvements: ensureArray(formData.b2q3),
@@ -137,16 +137,16 @@ export const saveSurveyResponse = async (formData) => {
     // surveyData.jsのblock4の質問はb4q1〜b4q6として保存されている
     // データベースのblock4_otherテーブルには別のフィールドがあるため、適切にマッピング
     const block4Data = {
-      q1_vehicle_count: parseInt(formData.q3) || null,  // block1の問3: 車両台数
+      q1_vehicle_count: parseInt(formData.q3) || null,  // block1の問: 車両台数
       q2_total_drivers: null,  // 現在のフォームには全ドライバー数の質問がない
       q3_male_drivers: null,   // 現在のフォームには男性ドライバー数の質問がない
       q4_female_office_workers: null,  // 現在のフォームには女性事務職数の質問がない
       q5_female_warehouse_workers: null,  // 現在のフォームには女性倉庫作業員数の質問がない
-      q6_respondent_name: formData.responderName || null,  // block1問1: 担当者名
+      q6_respondent_name: formData.responderName || null,  // block1問: 担当者名
       q6_department: null,  // 現在のフォームには部署の入力欄がない
-      q6_position: formData.position || null,  // block1問1: 役職
+      q6_position: formData.position || null,  // block1問: 役職
       q6_phone: null,  // 現在のフォームには電話番号の入力欄がない
-      q6_email: formData.email || null  // block1問1: メールアドレス
+      q6_email: formData.email || null  // block1問: メールアドレス
     }
 
     console.log('Block4 data prepared:', block4Data)

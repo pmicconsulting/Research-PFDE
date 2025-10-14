@@ -31,7 +31,7 @@ const SurveyPage = () => {
   })
   const [q4Answer, setQ4Answer] = useState('')
 
-  // 問4の回答に基づいて表示するブロックを決定
+  // 問の回答に基づいて表示するブロックを決定
   useEffect(() => {
     if (q4Answer === 'currently_employed') {
       setOpenSections(prev => ({ ...prev, block2: true, block3: true }))
@@ -43,7 +43,7 @@ const SurveyPage = () => {
   const handleInputChange = (name, value) => {
     setFormData(prev => ({ ...prev, [name]: value }))
 
-    // 問4の回答を特別に処理
+    // 問の回答を特別に処理
     if (name === 'q4') {
       setQ4Answer(value)
     }

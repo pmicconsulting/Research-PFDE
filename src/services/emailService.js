@@ -16,10 +16,8 @@ export const sendConfirmationEmail = async (formData, respondentId) => {
 
     console.log('Sending confirmation email to:', formData.email)
 
-    // Node.jsサーバーのAPIエンドポイントを使用
-    const apiUrl = import.meta.env.DEV
-      ? 'http://localhost:3002/api/send-survey-confirmation'
-      : '/api/send-survey-confirmation'  // 本番環境では相対パスを使用
+    // Vercel Functions のAPIエンドポイントを使用
+    const apiUrl = '/api/send-email'  // Vercel Functions用エンドポイント
 
     const response = await fetch(apiUrl, {
       method: 'POST',
