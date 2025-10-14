@@ -1,5 +1,5 @@
-// Vercel Function for sending emails
-const sgMail = require('@sendgrid/mail');
+// Vercel Function for sending emails (ES modules)
+import sgMail from '@sendgrid/mail';
 
 // CORSヘッダーを設定 + エラーハンドリング
 const allowCors = fn => async (req, res) => {
@@ -356,4 +356,5 @@ URL: https://www.jta.or.jp
   return { html, text };
 }
 
-module.exports = allowCors(handler);
+// ES modules デフォルトエクスポート
+export default allowCors(handler);
