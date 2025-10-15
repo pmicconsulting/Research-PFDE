@@ -125,25 +125,25 @@ export const surveyData = {
       },
       {
         id: 'b2q2',
-        type: 'select',
-        title: '問2：女性ドライバーの平均在職年数について、おおよその数字をご入力ください。',
-        required: true,
-        options: Array.from({ length: 50 }, (_, i) => `約${i + 1}年`)
-      },
-      {
-        id: 'b2q3',
         type: 'grid',
-        title: '問3：1日当たりの運行距離別に、従事している女性ドライバーの人数をご入力ください。',
+        title: '問2：1日当たりの運行距離別に、従事している女性ドライバーの人数をご入力ください。',
         required: true,
         note: 'なお、複数従事している場合、最も多く従事しているものでカウントします。',
         rows: [
-          { label: '長距離（500km超）', name: 'longDistance' },
-          { label: '中距離（200～500km）', name: 'mediumDistance' },
-          { label: '近距離（50～200km）', name: 'shortDistance' },
-          { label: '市内配送（100km以内）', name: 'cityDelivery' }
+          { label: '片道200km以上', name: 'longDistance' },
+          { label: '片道100km以上200km未満', name: 'mediumDistance' },
+          { label: '片道50km以上100km未満', name: 'shortDistance' },
+          { label: '片道50km未満', name: 'cityDelivery' }
         ],
         columns: ['女性ドライバー人数'],
         selectOptions: ['0'].concat(Array.from({ length: 200 }, (_, i) => `${i + 1}`))
+      },
+      {
+        id: 'b2q3',
+        type: 'select',
+        title: '問3：女性ドライバーの平均在職年数について、おおよその数字をご入力ください。',
+        required: true,
+        options: Array.from({ length: 50 }, (_, i) => `約${i + 1}年`)
       },
       {
         id: 'b2q4',
@@ -217,9 +217,9 @@ export const surveyData = {
         hasOther: true
       },
       {
-        id: 'b2q8',
+        id: 'b2q10',
         type: 'checkbox',
-        title: '問8：採用した女性ドライバーで「必要な免許は保有していなかった」場合の対応をお聞きします。免許取得あるいは免許区分の上位免許の更新についてどのようにしましたか。',
+        title: '問10：採用した女性ドライバーで「必要な免許は保有していなかった」場合の対応をお聞きします。免許取得あるいは免許区分の上位免許の更新についてどのようにしましたか。',
         required: true,
         options: [
           '会社が全額負担',
@@ -229,9 +229,9 @@ export const surveyData = {
         hasOther: true
       },
       {
-        id: 'b2q9',
+        id: 'b2q11',
         type: 'checkbox',
-        title: '問9：女性ドライバーは運転免許以外にどのような免許を取得していますか、該当するもの全てを選択してください。',
+        title: '問11：女性ドライバーは運転免許以外にどのような免許を取得していますか、該当するもの全てを選択してください。',
         required: true,
         options: [
           'フォークリフト',
