@@ -18,6 +18,8 @@ import {
 import { surveyData } from '../data/surveyData'
 import { saveSurveyResponse } from '../services/surveyService'
 import { sendConfirmationEmail } from '../services/emailService'
+import { useAutoSave } from '../hooks/useAutoSave'
+import ProgressBar from '../components/survey/ProgressBar'
 
 const SurveyPage = () => {
   const navigate = useNavigate()
@@ -30,6 +32,58 @@ const SurveyPage = () => {
     block4: true
   })
   const [q4Answer, setQ4Answer] = useState('')
+  const [currentBlock, setCurrentBlock] = useState(1)
+
+  // 自動保存機能を有効化
+  const {
+    lastSaveTime,
+    isSaving,
+    saveStatus,
+    loadDraft,
+    manualSave
+  } = useAutoSave(formData, true)
+
+  // 初回ロード時に下書きを読み込む
+  useEffect(() => {
+    const initializeDraft = async () => {
+      const draft = await loadDraft()
+      if (draft) {
+        setFormData(draft)
+        // q4の回答も復元
+        if (draft.q4) {
+          setQ4Answer(draft.q4)
+        }
+      }
+    }
+    initializeDraft()
+  }, []) // loadDraftを依存配列から除外（初回のみ実行）
+
+  // 各ブロックの完了状況を計算
+  const calculateBlockCompletion = () => {
+    const completion = {}
+
+    // ブロック1の必須フィールドチェック
+    const block1RequiredFields = ['companyName', 'position', 'responderName', 'gender', 'email', 'prefecture', 'q2', 'q3', 'q4', 'q5', 'q6']
+    completion.block1 = block1RequiredFields.every(field => formData[field] && formData[field] !== '')
+
+    // ブロック2（該当する場合）
+    if (q4Answer === 'currently_employed') {
+      const block2RequiredFields = ['b2q1', 'b2q2', 'b2q3', 'b2q4', 'b2q5', 'b2q6', 'b2q7', 'b2q10', 'b2q11']
+      completion.block2 = block2RequiredFields.every(field => formData[field])
+    }
+
+    // ブロック3（該当する場合）
+    if (q4Answer === 'currently_employed' || q4Answer === 'previously_employed') {
+      const block3RequiredFields = ['b3q10', 'b3q11', 'b3q13', 'b3q14', 'b3q16', 'b3q18']
+      completion.block3 = block3RequiredFields.every(field => formData[field])
+    }
+
+    // ブロック4の必須フィールドチェック
+    const block4RequiredFields = ['b4q1', 'b4q2', 'b4q3', 'b4q5']
+    completion.block4 = block4RequiredFields.every(field => formData[field])
+
+    return completion
+  }
 
   // 問の回答に基づいて表示するブロックを決定
   useEffect(() => {
@@ -333,13 +387,26 @@ const SurveyPage = () => {
 
       <main className="flex-grow py-12 px-4">
         <div className="max-w-4xl mx-auto">
+          {/* プログレスバー */}
+          <ProgressBar
+            currentBlock={currentBlock}
+            totalBlocks={4}
+            blockCompletion={calculateBlockCompletion()}
+            isSaving={isSaving}
+            lastSaveTime={lastSaveTime}
+            onManualSave={manualSave}
+          />
+
           <div className="bg-white rounded-2xl shadow-xl p-8 sm:p-12">
             <form onSubmit={handleSubmit} className="space-y-6">
               {/* ブロック1: 基本情報（全員回答） */}
               <AccordionSection
                 title={surveyData.block1.title}
                 isOpen={openSections.block1}
-                onToggle={() => toggleSection('block1')}
+                onToggle={() => {
+                  toggleSection('block1')
+                  setCurrentBlock(1)
+                }}
               >
                 <div className="space-y-6">
                   {surveyData.block1.questions.map(question => (
@@ -356,7 +423,10 @@ const SurveyPage = () => {
                   <AccordionSection
                     title={surveyData.block2.title}
                     isOpen={openSections.block2}
-                    onToggle={() => toggleSection('block2')}
+                    onToggle={() => {
+                      toggleSection('block2')
+                      setCurrentBlock(2)
+                    }}
                     disabled={!q4Answer}
                   >
                     <div className="space-y-6">
@@ -377,7 +447,10 @@ const SurveyPage = () => {
                 <AccordionSection
                   title={surveyData.block3.title}
                   isOpen={openSections.block3}
-                  onToggle={() => toggleSection('block3')}
+                  onToggle={() => {
+                    toggleSection('block3')
+                    setCurrentBlock(3)
+                  }}
                   disabled={!q4Answer}
                 >
                   <div className="space-y-6">
@@ -394,7 +467,10 @@ const SurveyPage = () => {
               <AccordionSection
                 title={surveyData.block4.title}
                 isOpen={openSections.block4}
-                onToggle={() => toggleSection('block4')}
+                onToggle={() => {
+                  toggleSection('block4')
+                  setCurrentBlock(4)
+                }}
               >
                 <div className="space-y-6">
                   {surveyData.block4.questions.map(question => (
