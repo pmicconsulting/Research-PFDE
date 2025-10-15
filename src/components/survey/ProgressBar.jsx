@@ -27,7 +27,7 @@ const ProgressBar = ({ currentBlock, totalBlocks, blockCompletion = {}, isSaving
   ]
 
   return (
-    <div className="bg-white p-4 rounded-lg shadow-md mb-6">
+    <div className="bg-white p-4">
       {/* 全体の進捗 */}
       <div className="mb-4">
         <div className="flex justify-between mb-2">

@@ -127,64 +127,14 @@ export const CheckboxField = ({ label, name, values, onChange, required, options
   );
 };
 
-export const NumberField = ({ label, name, value, onChange, required, unit, min = 0, max = 999999 }) => {
-  // 値を増減する関数
-  const handleIncrement = () => {
-    const currentValue = parseInt(value) || 0;
-    if (currentValue < max) {
-      const event = { target: { name, value: String(currentValue + 1) } };
-      onChange(event);
-    }
-  };
-
-  const handleDecrement = () => {
-    const currentValue = parseInt(value) || 0;
-    if (currentValue > min) {
-      const event = { target: { name, value: String(currentValue - 1) } };
-      onChange(event);
-    }
-  };
-
-  // クイック選択ボタンの値
-  const quickValues = [0, 5, 10, 20, 50, 100];
-
+export const NumberField = ({ label, name, value, onChange, required, unit, min, max }) => {
   return (
     <div className="mb-6 p-5 border border-gray-200 rounded-lg bg-gray-50">
       <label htmlFor={name} className="block text-base font-semibold text-blue-700 mb-3">
         {label}
         {required && <span className="text-red-500 ml-1">*</span>}
       </label>
-
-      {/* クイック選択ボタン */}
-      <div className="flex flex-wrap gap-2 mb-3">
-        {quickValues.map(quickValue => (
-          <button
-            key={quickValue}
-            type="button"
-            onClick={() => {
-              const event = { target: { name, value: String(quickValue) } };
-              onChange(event);
-            }}
-            className="px-3 py-1 text-sm border border-gray-300 rounded-md hover:bg-blue-50 hover:border-blue-400 transition-colors"
-          >
-            {quickValue}
-          </button>
-        ))}
-      </div>
-
       <div className="flex items-center">
-        {/* デクリメントボタン */}
-        <button
-          type="button"
-          onClick={handleDecrement}
-          className="px-3 py-2.5 border border-gray-300 rounded-l-lg hover:bg-gray-100 transition-colors"
-          disabled={parseInt(value) <= min}
-        >
-          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
-          </svg>
-        </button>
-
         <input
           type="number"
           id={name}
@@ -194,21 +144,8 @@ export const NumberField = ({ label, name, value, onChange, required, unit, min 
           required={required}
           min={min}
           max={max}
-          className="flex-1 px-4 py-2.5 border-t border-b border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors bg-white text-center"
+          className="flex-1 px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors bg-white"
         />
-
-        {/* インクリメントボタン */}
-        <button
-          type="button"
-          onClick={handleIncrement}
-          className="px-3 py-2.5 border border-gray-300 rounded-r-lg hover:bg-gray-100 transition-colors"
-          disabled={parseInt(value) >= max}
-        >
-          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-          </svg>
-        </button>
-
         {unit && <span className="ml-3 text-gray-600 font-medium">{unit}</span>}
       </div>
     </div>

@@ -385,9 +385,9 @@ const SurveyPage = () => {
     <div className="min-h-screen flex flex-col bg-gradient-to-br from-blue-50 via-white to-blue-50">
       <Header />
 
-      <main className="flex-grow py-12 px-4">
-        <div className="max-w-4xl mx-auto">
-          {/* プログレスバー */}
+      {/* 固定プログレスバー */}
+      <div className="sticky top-0 z-50 bg-white shadow-md">
+        <div className="max-w-4xl mx-auto px-4">
           <ProgressBar
             currentBlock={currentBlock}
             totalBlocks={4}
@@ -396,7 +396,11 @@ const SurveyPage = () => {
             lastSaveTime={lastSaveTime}
             onManualSave={manualSave}
           />
+        </div>
+      </div>
 
+      <main className="flex-grow py-12 px-4">
+        <div className="max-w-4xl mx-auto">
           <div className="bg-white rounded-2xl shadow-xl p-8 sm:p-12">
             <form onSubmit={handleSubmit} className="space-y-6">
               {/* ブロック1: 基本情報（全員回答） */}
