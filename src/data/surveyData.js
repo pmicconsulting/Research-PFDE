@@ -136,7 +136,8 @@ export const surveyData = {
           { label: '片道50km未満', name: 'cityDelivery' }
         ],
         columns: ['女性ドライバー人数'],
-        selectOptions: ['0'].concat(Array.from({ length: 200 }, (_, i) => `${i + 1}`))
+        selectOptions: ['0'].concat(Array.from({ length: 200 }, (_, i) => `${i + 1}`)),
+        firstColumnLabel: '1日当たりの運行距離'
       },
       {
         id: 'b2q3',

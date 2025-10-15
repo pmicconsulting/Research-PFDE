@@ -177,7 +177,7 @@ export const TextAreaField = ({ label, name, value, onChange, required, maxLengt
 };
 
 // グリッド形式のフィールドコンポーネント
-export const GridField = ({ label, name, rows, columns, values, onChange, required, type = 'number', selectOptions, onOtherTextChange }) => {
+export const GridField = ({ label, name, rows, columns, values, onChange, required, type = 'number', selectOptions, onOtherTextChange, firstColumnLabel }) => {
   return (
     <div className="mb-6 p-5 border border-gray-200 rounded-lg bg-gray-50">
       <label className="block text-base font-semibold text-blue-700 mb-3">
@@ -189,7 +189,7 @@ export const GridField = ({ label, name, rows, columns, values, onChange, requir
           <thead>
             <tr>
               <th className="border border-gray-300 px-4 py-2 bg-blue-50 text-left font-semibold text-gray-700">
-                項目
+                {firstColumnLabel || '項目'}
               </th>
               {columns && columns.map((col, index) => (
                 <th key={index} className="border border-gray-300 px-4 py-2 bg-blue-50 text-center font-semibold text-gray-700">
