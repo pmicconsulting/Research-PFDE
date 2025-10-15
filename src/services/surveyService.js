@@ -83,21 +83,19 @@ export const saveSurveyResponse = async (formData) => {
         q1_trailer_50s: parseInt(formData.b2q1?.trailer?.[3]) || 0,
         q1_trailer_60s_plus: parseInt(formData.b2q1?.trailer?.[4]) || 0,
 
-        // 問-9
-        q2_cargo_characteristics: ensureArray(formData.b2q2),
-        q2_cargo_other: formData.b2q2_other || null,
-        q3_improvements: ensureArray(formData.b2q3),
-        q3_improvements_other: formData.b2q3_other || null,
-        q4_education_methods: ensureArray(formData.b2q4),
-        q4_education_other: formData.b2q4_other || null,
-        q5_challenges: ensureArray(formData.b2q5),
-        q5_challenges_other: formData.b2q5_other || null,
-        q6_promotion_initiatives: ensureArray(formData.b2q6),
-        q6_promotion_other: formData.b2q6_other || null,
-        q7_facility_improvements: ensureArray(formData.b2q7),
-        q7_facility_other: formData.b2q7_other || null,
-        q8_feedback: formData.b2q8 || null,
-        q9_increase_intention: formData.b2q9 || null
+        // 問6-11
+        q6_cargo_characteristics: ensureArray(formData.b2q6),
+        q6_cargo_other: formData.b2q6_other || null,
+        q7_loading_methods: ensureArray(formData.b2q7),
+        q7_loading_other: formData.b2q7_other || null,
+        q10_license_methods: ensureArray(formData.b2q10),
+        q10_license_other: formData.b2q10_other || null,
+        q11_other_licenses: ensureArray(formData.b2q11),
+        q11_other_licenses_other: formData.b2q11_other || null,
+
+        // 問4と問5の「その他」テキストフィールド
+        otherVehicle_text: formData.b2q4?.otherVehicle_text || null,
+        otherShape_text: formData.b2q5?.otherShape_text || null
       }
     }
 

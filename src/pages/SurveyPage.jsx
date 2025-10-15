@@ -217,6 +217,15 @@ const SurveyPage = () => {
                 }
               }))
             }}
+            onOtherTextChange={(rowName, value) => {
+              setFormData(prev => ({
+                ...prev,
+                [question.id]: {
+                  ...prev[question.id],
+                  [`${rowName}_text`]: value
+                }
+              }))
+            }}
             required={question.required}
             type={question.selectOptions ? 'select' : 'number'}
             selectOptions={question.selectOptions}

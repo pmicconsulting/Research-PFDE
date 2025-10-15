@@ -177,7 +177,7 @@ export const TextAreaField = ({ label, name, value, onChange, required, maxLengt
 };
 
 // グリッド形式のフィールドコンポーネント
-export const GridField = ({ label, name, rows, columns, values, onChange, required, type = 'number', selectOptions }) => {
+export const GridField = ({ label, name, rows, columns, values, onChange, required, type = 'number', selectOptions, onOtherTextChange }) => {
   return (
     <div className="mb-6 p-5 border border-gray-200 rounded-lg bg-gray-50">
       <label className="block text-base font-semibold text-blue-700 mb-3">
@@ -203,6 +203,17 @@ export const GridField = ({ label, name, rows, columns, values, onChange, requir
               <tr key={rowIndex}>
                 <td className="border border-gray-300 px-4 py-2 bg-white font-medium text-gray-700">
                   {row.label}
+                  {row.hasTextField && (
+                    <input
+                      type="text"
+                      name={`${name}_${row.name}_text`}
+                      value={values?.[`${row.name}_text`] || ''}
+                      onChange={(e) => onOtherTextChange && onOtherTextChange(row.name, e.target.value)}
+                      className="ml-2 px-2 py-1 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                      placeholder="詳細を入力"
+                      style={{ maxWidth: '150px' }}
+                    />
+                  )}
                 </td>
                 {columns && columns.map((col, colIndex) => (
                   <td key={colIndex} className="border border-gray-300 px-4 py-2 bg-white">
