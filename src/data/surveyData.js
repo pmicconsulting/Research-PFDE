@@ -7,12 +7,12 @@ export const surveyData = {
       {
         id: 'q1',
         type: 'section',
-        title: '問：回答時点の貴社の概要',
+        title: '問1：回答時点の貴社の概要',
         fields: [
-          { name: 'companyName', label: '貴会社名', type: 'text', required: true },
+          { name: 'companyName', label: '貴社名', type: 'text', required: true },
           {
             name: 'position',
-            label: 'お役職',
+            label: '役職',
             type: 'select',
             required: true,
             options: ['代表者', '役員', '部長', '課長', '係長', '担当']
@@ -20,7 +20,7 @@ export const surveyData = {
           { name: 'responderName', label: '担当者名', type: 'text', required: true },
           {
             name: 'gender',
-            label: 'ご回答者の性別',
+            label: '回答者の性別',
             type: 'radio',
             required: true,
             options: ['男性', '女性']
@@ -46,7 +46,7 @@ export const surveyData = {
       {
         id: 'q2',
         type: 'checkbox',
-        title: '問：貴社が実施している事業内容は何ですか、該当するもの全てを選択して下さい。',
+        title: '問2：貴社が実施している事業内容は何ですか、該当するもの全てを選択して下さい。',
         required: true,
         options: [
           '【特積】貨物自動車運送事業',
@@ -59,14 +59,14 @@ export const surveyData = {
       {
         id: 'q3',
         type: 'number',
-        title: '問：貴社が保有するトラック運送事業用自動車の台数をご入力ください。（非牽引車を含める）',
+        title: '問3：貴社が保有するトラック運送事業用自動車の台数をご入力ください。（非牽引車を含める）',
         required: true,
         unit: '台'
       },
       {
         id: 'q4',
         type: 'radio',
-        title: '問：貴社では、女性ドライバーを雇用していますか、該当するもの１つを選択して下さい。',
+        title: '問4：貴社では、女性ドライバーを雇用していますか。該当するもの１つを選択して下さい。',
         required: true,
         options: [
           { value: 'currently_employed', label: '現在、女性ドライバーを雇用している' },
@@ -78,7 +78,7 @@ export const surveyData = {
       {
         id: 'q5',
         type: 'radio',
-        title: '問：女性ドライバーの雇用の必要性や意義を感じますか。該当するもの１つを選択して下さい。',
+        title: '問5：女性ドライバーの雇用の必要性や意義を感じますか。該当するもの１つを選択して下さい。',
         required: true,
         options: [
           'とても感じる',
@@ -91,7 +91,7 @@ export const surveyData = {
       {
         id: 'q6',
         type: 'radio',
-        title: '問：女性ドライバーの雇用に関する今後の予定について、該当するもの１つを選択して下さい。',
+        title: '問6：女性ドライバーの雇用に関する今後の予定について、該当するもの１つを選択して下さい。',
         required: true,
         options: [
           '雇用を増加させたい',
@@ -112,7 +112,7 @@ export const surveyData = {
       {
         id: 'b2q1',
         type: 'grid',
-        title: '問：2020年及び2025年9月現在の貴社の男女別従業員数（パート、アルバイトを含む）と、その内訳（ドライバー・その他）のおおよその人数をご入力ください。',
+        title: '問1：2020年及び2025年10月現在の貴社の男女別従業員数（パート、アルバイトを含む）と、その内訳（ドライバー・その他）のおおよその人数をご入力ください。',
         required: true,
         rows: [
           { label: '全ドライバー（男性）', name: 'maleDrivers' },
@@ -126,14 +126,14 @@ export const surveyData = {
       {
         id: 'b2q2',
         type: 'select',
-        title: '問：女性ドライバーの平均在職年数について、おおよその数字をご入力ください。',
+        title: '問2：女性ドライバーの平均在職年数について、おおよその数字をご入力ください。',
         required: true,
         options: Array.from({ length: 50 }, (_, i) => `約${i + 1}年`)
       },
       {
         id: 'b2q3',
         type: 'grid_select',
-        title: '問：以下の運行形態（長距離、近・中距離等）別に、従事している女性ドライバーの人数をご入力ください。',
+        title: '問3：以下の1日当たりの運行形態（長距離、近・中距離等）別に、従事している女性ドライバーの人数をご入力ください。',
         required: true,
         note: 'なお、複数従事している場合、最も多く従事しているものでカウントします。',
         rows: [
@@ -147,7 +147,7 @@ export const surveyData = {
       {
         id: 'b2q4',
         type: 'grid_select',
-        title: '問：車両別に、女性ドライバーが乗務している人数をご入力回答ください。',
+        title: '問4：車両別に、女性ドライバーが乗務している人数をご入力回答ください。',
         required: true,
         note: '※ 複数の種類に乗務している場合は、乗務時間が大きい方に入れてください。',
         rows: [
@@ -163,7 +163,7 @@ export const surveyData = {
       {
         id: 'b2q5',
         type: 'grid_select',
-        title: '問：以下の車両形状別に、女性ドライバーが乗務している人数をご入力回答ください。',
+        title: '問5：以下の車両形状別に、女性ドライバーが乗務している人数をご入力回答ください。',
         required: true,
         note: '※ 複数の形状に乗務している場合は、乗務時間が大きい方に入れてください。',
         rows: [
@@ -181,7 +181,7 @@ export const surveyData = {
       {
         id: 'b2q6',
         type: 'checkbox',
-        title: '問：女性ドライバーが取扱っている主な品目は何ですか。該当するもの全てを選択してください。',
+        title: '問6：女性ドライバーが取扱っている主な品目は何ですか。該当するもの全てを選択してください。',
         required: true,
         options: [
           '農水産品、林産品',
@@ -201,7 +201,7 @@ export const surveyData = {
       {
         id: 'b2q7',
         type: 'checkbox',
-        title: '問：女性ドライバーの主な積込み・取卸しに関する荷役作業について、該当するもの全てを選択してください。',
+        title: '問7：女性ドライバーの主な積込み・取卸しに関する荷役作業について、該当するもの全てを選択してください。',
         required: true,
         options: [
           '手積み・手卸しによる荷役作業',
@@ -216,7 +216,7 @@ export const surveyData = {
       {
         id: 'b2q8',
         type: 'checkbox',
-        title: '問：採用した女性ドライバーで「必要な免許は保有していなかった」場合の対応をお聞きします。免許取得あるいは免許区分の上位免許の更新に向についてどのようにしましたか。',
+        title: '問8：採用した女性ドライバーで「必要な免許は保有していなかった」場合の対応をお聞きします。免許取得あるいは免許区分の上位免許の更新についてどのようにしましたか。',
         required: true,
         options: [
           '会社が全額負担',
@@ -228,7 +228,7 @@ export const surveyData = {
       {
         id: 'b2q9',
         type: 'checkbox',
-        title: '問：女性ドライバーは運転免許以外にどのような免許を取得していますか、該当するもの全てを選択してください。',
+        title: '問9：女性ドライバーは運転免許以外にどのような免許を取得していますか、該当するもの全てを選択してください。',
         required: true,
         options: [
           'フォークリフト',
@@ -250,7 +250,7 @@ export const surveyData = {
       {
         id: 'b3q10',
         type: 'checkbox',
-        title: '問：貴社の女性ドライバーの採用方法について、該当するもの全てを選択してください。',
+        title: '問1：貴社の女性ドライバーの採用方法について、該当するもの全てを選択してください。',
         required: true,
         options: [
           'ハローワーク',
@@ -267,7 +267,7 @@ export const surveyData = {
       {
         id: 'b3q11',
         type: 'checkbox',
-        title: '問：女性ドライバーを採用するために、工夫していることはありますか。',
+        title: '問2：女性ドライバーを採用するために、工夫していることはありますか。',
         required: true,
         options: [
           '勤務希望時間帯に即した仕事を切り出し、仕事を生み出すこと',
@@ -290,14 +290,14 @@ export const surveyData = {
       {
         id: 'b3q12',
         type: 'textarea',
-        title: '問：前問でお答えいただいた工夫について、特に有効と考えられる採用方法や工夫があれば、お差し支えない範囲で具体的にご入力ください。',
+        title: '問3：前問でお答えいただいた工夫について、特に有効と考えられる採用方法や工夫があれば、お差し支えない範囲で具体的にご入力ください。',
         required: false,
         maxLength: 500
       },
       {
         id: 'b3q13',
         type: 'checkbox',
-        title: '問：女性ドライバーの雇用によるメリット（良い点）について、該当するもの全てを選択してください。',
+        title: '問4：女性ドライバーの雇用によるメリット（良い点）について、該当するもの全てを選択してください。',
         required: true,
         options: [
           'コミュニケーションが円滑になり、社内の雰囲気が良くなった',
@@ -311,7 +311,7 @@ export const surveyData = {
       {
         id: 'b3q14',
         type: 'checkbox',
-        title: '問：女性ドライバーを雇用することで、問題をお感じですか。該当するもの全てを選択してください。',
+        title: '問5：女性ドライバーを雇用することで、問題をお感じですか。該当するもの全てを選択してください。',
         required: true,
         options: [
           '男女関係や派閥を作るなど、人間関係が難しくなる',
@@ -327,14 +327,14 @@ export const surveyData = {
       {
         id: 'b3q15',
         type: 'textarea',
-        title: '問：前問でご回答いただいた問題について、具体的にどのようなことがありますか。また、問題解決のために取組まれている対策について、具体的にご入力ください。',
+        title: '問6：前問でご回答いただいた問題について、具体的にどのようなことがありますか。また、問題解決のために取組まれている対策について、具体的にご入力ください。',
         required: false,
         maxLength: 500
       },
       {
         id: 'b3q16',
         type: 'radio',
-        title: '問：貴社では、女性ドライバーは定着している（または定着していた）と思いますか。該当するもの１つを選択してください。',
+        title: '問7：貴社では、女性ドライバーは定着している（または定着していた）と思いますか。該当するもの１つを選択してください。',
         note: 'なお、「定着傾向」にあるとは、少なくとも「１年以上勤務を継続している状態」を言います。',
         required: true,
         options: [
@@ -346,14 +346,14 @@ export const surveyData = {
       {
         id: 'b3q17',
         type: 'textarea',
-        title: '問：女性ドライバーの退職理由にはどのようものがありますか。',
+        title: '問8：女性ドライバーの退職理由にはどのようものがありますか。',
         required: false,
         maxLength: 500
       },
       {
         id: 'b3q18',
         type: 'checkbox',
-        title: '問：女性ドライバーが定着するための取組事項として、該当するもの全てを選択してください。',
+        title: '問9：女性ドライバーが定着するための取組事項として、該当するもの全てを選択してください。',
         required: true,
         options: [
           '女性管理職の起用',
@@ -380,14 +380,14 @@ export const surveyData = {
       {
         id: 'b3q19',
         type: 'textarea',
-        title: '問：上記でご回答された社内の取組について、具体的にお教えください。',
+        title: '問10：上記でご回答された社内の取組について、具体的にお教えください。',
         required: false,
         maxLength: 500
       },
       {
         id: 'b3q20',
         type: 'textarea',
-        title: '問：女性ドライバーから、日頃どのような相談、要望がありますか。',
+        title: '問11：女性ドライバーから、日頃どのような相談、要望がありますか。',
         required: false,
         maxLength: 500
       }
@@ -396,12 +396,12 @@ export const surveyData = {
 
   // ブロック4: 全員回答
   block4: {
-    title: 'Ⅵ．その他',
+    title: 'Ⅳ．その他',
     questions: [
       {
         id: 'b4q1',
         type: 'checkbox',
-        title: '問：女性を採用するうえで、お悩みの事柄はありますか。該当するもの全てを選択してください。',
+        title: '問1：女性を採用するうえで、お悩みの事柄はありますか。該当するもの全てを選択してください。',
         required: true,
         options: [
           '両立支援のための制度整備（勤務時間、休暇等）',
@@ -414,7 +414,7 @@ export const surveyData = {
       {
         id: 'b4q2',
         type: 'checkbox',
-        title: '問：トラック運送業界における女性活躍を進めるために、経営者のお立場から望むことは何ですか。該当するもの全てを選択してください。',
+        title: '問2：トラック運送業界における女性活躍を進めるために、経営者のお立場から望むことは何ですか。該当するもの全てを選択してください。',
         required: true,
         options: [
           '女性ドライバーによる有益性をアピールまた活躍を発信する媒体（冊子・SNS等）',
@@ -431,7 +431,7 @@ export const surveyData = {
       {
         id: 'b4q3',
         type: 'radio',
-        title: '問：女性活躍に対する助成金制度（厚生労働省「両立支援等助成金」等）について、該当するもの1つを選択してください。',
+        title: '問3：女性活躍に対する助成金制度（厚生労働省「両立支援等助成金」等）について、該当するもの1つを選択してください。',
         required: true,
         options: [
           '制度を活用したことがある（活用している）',
@@ -443,7 +443,7 @@ export const surveyData = {
       {
         id: 'b4q4',
         type: 'textarea',
-        title: '問：女性活躍のために、助成金をどのように活用したいと思いますか。',
+        title: '問4：女性活躍のために、助成金をどのように活用したいと思いますか。',
         required: false,
         maxLength: 500,
         rows: 4
@@ -451,7 +451,7 @@ export const surveyData = {
       {
         id: 'b4q5',
         type: 'radio',
-        title: '問：国土交通省では、女性ドライバーである「トラガール」増加への取組みを実施していますが、女性ドライバーの増加を実感できますか、該当するもの１つを選択してください。',
+        title: '問5：国土交通省では、女性ドライバーである「トラガール」増加への取組みを実施していますが、女性ドライバーの増加を実感できますか、該当するもの１つを選択してください。',
         required: true,
         options: [
           '増加を実感できる',
@@ -462,7 +462,7 @@ export const surveyData = {
       {
         id: 'b4q6',
         type: 'textarea',
-        title: '問：女性ドライバーの採用や人材育成について、ご意見やご要望がありましたら、自由にご入力ください。',
+        title: '問6：女性ドライバーの採用や人材育成について、ご意見やご要望がありましたら、自由にご入力ください。',
         required: false,
         maxLength: 500,
         rows: 6
