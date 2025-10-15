@@ -86,6 +86,8 @@ Supabase (PostgreSQL) を使用しています。
 | q7_facility_other | VARCHAR(255) | 施設整備（その他） |
 | q8_feedback | TEXT | 女性ドライバーの声（自由記述） |
 | q9_increase_intention | VARCHAR(50) | 女性ドライバー比率向上意向 |
+| **otherVehicle_text** | **VARCHAR(255)** | **問4：車両別「その他」の詳細（2025年10月15日追加）** |
+| **otherShape_text** | **VARCHAR(255)** | **問5：車両形状別「その他」の詳細（2025年10月15日追加）** |
 
 ### 4. block3_no_employment（雇用していない企業）
 
@@ -244,5 +246,26 @@ FROM respondents;
 4. **文字コード**: UTF-8で統一
 5. **NULL値の扱い**: 必須項目以外はNULL許可、集計時は0として扱う
 
+## 📝 変更履歴
+
+### 2025年10月15日
+- **block2_current_employment テーブル更新**
+  - `otherVehicle_text` カラムを追加（問4：車両別「その他」の詳細入力用）
+  - `otherShape_text` カラムを追加（問5：車両形状別「その他」の詳細入力用）
+- **注**: 既存のSupabaseデータベースにこれらのカラムを追加するには、以下のSQLを実行してください：
+  ```sql
+  ALTER TABLE block2_current_employment
+  ADD COLUMN IF NOT EXISTS otherVehicle_text VARCHAR(255),
+  ADD COLUMN IF NOT EXISTS otherShape_text VARCHAR(255);
+
+  COMMENT ON COLUMN block2_current_employment.otherVehicle_text IS '問4：車両別「その他」の詳細';
+  COMMENT ON COLUMN block2_current_employment.otherShape_text IS '問5：車両形状別「その他」の詳細';
+  ```
+
+### 2025年10月14日
+- 初版作成
+- 全テーブル構造の文書化
+- インデックスとセキュリティ設定の記載
+
 ---
-最終更新: 2025年10月14日
+最終更新: 2025年10月15日
