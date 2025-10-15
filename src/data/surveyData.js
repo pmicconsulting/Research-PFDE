@@ -132,8 +132,8 @@ export const surveyData = {
       },
       {
         id: 'b2q3',
-        type: 'grid_select',
-        title: '問3：以下の1日当たりの運行形態（長距離、近・中距離等）別に、従事している女性ドライバーの人数をご入力ください。',
+        type: 'grid',
+        title: '問3：1日当たりの運行距離別に、従事している女性ドライバーの人数をご入力ください。',
         required: true,
         note: 'なお、複数従事している場合、最も多く従事しているものでカウントします。',
         rows: [
@@ -142,11 +142,12 @@ export const surveyData = {
           { label: '近距離（50～200km）', name: 'shortDistance' },
           { label: '市内配送（100km以内）', name: 'cityDelivery' }
         ],
-        options: ['0人'].concat(Array.from({ length: 200 }, (_, i) => `${i + 1}人`))
+        columns: ['女性ドライバー人数'],
+        selectOptions: ['0'].concat(Array.from({ length: 200 }, (_, i) => `${i + 1}`))
       },
       {
         id: 'b2q4',
-        type: 'grid_select',
+        type: 'grid',
         title: '問4：車両別に、女性ドライバーが乗務している人数をご入力回答ください。',
         required: true,
         note: '※ 複数の種類に乗務している場合は、乗務時間が大きい方に入れてください。',
@@ -158,11 +159,12 @@ export const surveyData = {
           { label: 'トレーラ', name: 'trailer' },
           { label: 'その他', name: 'otherVehicle', hasTextField: true }
         ],
-        options: ['0人'].concat(Array.from({ length: 200 }, (_, i) => `${i + 1}人`))
+        columns: ['女性ドライバー人数'],
+        selectOptions: ['0'].concat(Array.from({ length: 200 }, (_, i) => `${i + 1}`))
       },
       {
         id: 'b2q5',
-        type: 'grid_select',
+        type: 'grid',
         title: '問5：以下の車両形状別に、女性ドライバーが乗務している人数をご入力回答ください。',
         required: true,
         note: '※ 複数の形状に乗務している場合は、乗務時間が大きい方に入れてください。',
@@ -176,7 +178,8 @@ export const surveyData = {
           { label: 'セミトレーラー（その他トレーラ含む）', name: 'semiTrailer' },
           { label: 'その他', name: 'otherShape', hasTextField: true }
         ],
-        options: ['0人'].concat(Array.from({ length: 200 }, (_, i) => `${i + 1}人`))
+        columns: ['女性ドライバー人数'],
+        selectOptions: ['0'].concat(Array.from({ length: 200 }, (_, i) => `${i + 1}`))
       },
       {
         id: 'b2q6',
@@ -242,10 +245,10 @@ export const surveyData = {
     ]
   },
 
-  // ブロック3: 雇用していない場合の質問
+  // ブロック3: 現在雇用または過去に雇用していた場合の質問
   block3: {
     title: 'Ⅲ．女性ドライバーの採用について',
-    condition: ['previously_employed', 'never_employed'],
+    condition: ['currently_employed', 'previously_employed'],
     questions: [
       {
         id: 'b3q10',

@@ -65,8 +65,24 @@ export const testDataInsertion = async () => {
   console.log('=== データ挿入テスト ===')
 
   try {
-    // テストデータの生成
+    // テストデータの生成（「その他」フィールドを含む）
     const testData = supabaseAdmin.import.generateTestData()
+
+    // 「その他」フィールドのテストデータを追加
+    if (testData.block2_vehicle_types) {
+      // 車両別「その他」のテスト
+      const vehicleTypes = testData.block2_vehicle_types.find(item => item.question_id === 'b2q4')
+      if (vehicleTypes) {
+        vehicleTypes.otherVehicle_text = 'カスタム車両タイプ'
+      }
+
+      // 車両形状別「その他」のテスト
+      const vehicleShapes = testData.block2_vehicle_types.find(item => item.question_id === 'b2q5')
+      if (vehicleShapes) {
+        vehicleShapes.otherShape_text = 'カスタム車両形状'
+      }
+    }
+
     console.log('📝 テストデータ:', testData)
 
     // surveyServiceを使用してデータ保存
@@ -201,6 +217,24 @@ export const testDataIntegrity = async () => {
 
   try {
     const { issues } = await supabaseAdmin.diagnostics.checkDataIntegrity()
+
+    // 「その他」フィールドの整合性チェック
+    const { data: vehicleData } = await supabaseAdmin.client
+      .from('block2_vehicle_types')
+      .select('*')
+      .or('otherVehicle.not.is.null,otherShape.not.is.null')
+
+    if (vehicleData && vehicleData.length > 0) {
+      console.log(`📊 「その他」フィールド使用: ${vehicleData.length}件`)
+      vehicleData.forEach(record => {
+        if (record.otherVehicle && !record.otherVehicle_text) {
+          console.log(`⚠️ 車両別「その他」が選択されているがテキストが未入力: ID ${record.id}`)
+        }
+        if (record.otherShape && !record.otherShape_text) {
+          console.log(`⚠️ 車両形状別「その他」が選択されているがテキストが未入力: ID ${record.id}`)
+        }
+      })
+    }
 
     if (issues.length === 0) {
       console.log('✅ データ整合性に問題なし')

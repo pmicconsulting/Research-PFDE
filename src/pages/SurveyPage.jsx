@@ -311,11 +311,11 @@ const SurveyPage = () => {
     }
   }
 
-  // ブロック2の表示判定
+  // ブロック2の表示判定（現在雇用している場合のみ）
   const shouldShowBlock2 = q4Answer === 'currently_employed'
 
-  // ブロック3の表示判定
-  const shouldShowBlock3 = q4Answer === 'previously_employed' || q4Answer === 'never_employed'
+  // ブロック3の表示判定（現在雇用または過去に雇用していた場合）
+  const shouldShowBlock3 = q4Answer === 'currently_employed' || q4Answer === 'previously_employed'
 
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-br from-blue-50 via-white to-blue-50">
