@@ -6,8 +6,11 @@ import React from 'react'
  * @param {number} props.currentBlock - 現在のブロック番号
  * @param {number} props.totalBlocks - 総ブロック数
  * @param {Object} props.blockCompletion - 各ブロックの完了状況
+ * @param {boolean} props.isSaving - 保存中かどうか
+ * @param {string} props.lastSaveTime - 最後の保存時刻
+ * @param {Function} props.onManualSave - 手動保存関数
  */
-const ProgressBar = ({ currentBlock, totalBlocks, blockCompletion = {} }) => {
+const ProgressBar = ({ currentBlock, totalBlocks, blockCompletion = {}, isSaving = false, lastSaveTime = null, onManualSave }) => {
   // 全体の進捗率を計算
   const calculateTotalProgress = () => {
     const completedBlocks = Object.values(blockCompletion).filter(Boolean).length
