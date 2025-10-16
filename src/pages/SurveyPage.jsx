@@ -284,6 +284,7 @@ const SurveyPage = () => {
             type={question.selectOptions ? 'select' : 'number'}
             selectOptions={question.selectOptions}
             firstColumnLabel={question.firstColumnLabel}
+            note={question.note}
           />
         )
 
