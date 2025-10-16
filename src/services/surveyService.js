@@ -46,56 +46,60 @@ export const saveSurveyResponse = async (formData) => {
     let block2Data = null
     if (formData.q4 === 'currently_employed') {
       block2Data = {
-        // 問: 車種別女性ドライバー数
-        q1_large_truck_20s: parseInt(formData.b2q1?.large_truck?.[0]) || 0,
-        q1_large_truck_30s: parseInt(formData.b2q1?.large_truck?.[1]) || 0,
-        q1_large_truck_40s: parseInt(formData.b2q1?.large_truck?.[2]) || 0,
-        q1_large_truck_50s: parseInt(formData.b2q1?.large_truck?.[3]) || 0,
-        q1_large_truck_60s_plus: parseInt(formData.b2q1?.large_truck?.[4]) || 0,
+        // 問1: 従業員数（2020年と2025年）
+        male_drivers_2025: parseInt(formData.b2q1?.maleDrivers?.[0]) || 0,
+        female_drivers_2025: parseInt(formData.b2q1?.femaleDrivers?.[0]) || 0,
+        male_employees_2025: parseInt(formData.b2q1?.maleEmployees?.[0]) || 0,
+        female_employees_2025: parseInt(formData.b2q1?.femaleEmployees?.[0]) || 0,
+        male_drivers_2020: parseInt(formData.b2q1?.maleDrivers?.[1]) || 0,
+        female_drivers_2020: parseInt(formData.b2q1?.femaleDrivers?.[1]) || 0,
+        male_employees_2020: parseInt(formData.b2q1?.maleEmployees?.[1]) || 0,
+        female_employees_2020: parseInt(formData.b2q1?.femaleEmployees?.[1]) || 0,
 
-        q1_medium_truck_20s: parseInt(formData.b2q1?.medium_truck?.[0]) || 0,
-        q1_medium_truck_30s: parseInt(formData.b2q1?.medium_truck?.[1]) || 0,
-        q1_medium_truck_40s: parseInt(formData.b2q1?.medium_truck?.[2]) || 0,
-        q1_medium_truck_50s: parseInt(formData.b2q1?.medium_truck?.[3]) || 0,
-        q1_medium_truck_60s_plus: parseInt(formData.b2q1?.medium_truck?.[4]) || 0,
+        // 問2: 平均在職年数
+        avg_tenure_years: formData.b2q2 || null,
 
-        q1_semi_medium_truck_20s: parseInt(formData.b2q1?.semi_medium_truck?.[0]) || 0,
-        q1_semi_medium_truck_30s: parseInt(formData.b2q1?.semi_medium_truck?.[1]) || 0,
-        q1_semi_medium_truck_40s: parseInt(formData.b2q1?.semi_medium_truck?.[2]) || 0,
-        q1_semi_medium_truck_50s: parseInt(formData.b2q1?.semi_medium_truck?.[3]) || 0,
-        q1_semi_medium_truck_60s_plus: parseInt(formData.b2q1?.semi_medium_truck?.[4]) || 0,
+        // 問3: 運行距離別人数
+        long_distance_count: parseInt(formData.b2q3?.longDistance) || 0,
+        medium_distance_count: parseInt(formData.b2q3?.mediumDistance) || 0,
+        short_distance_count: parseInt(formData.b2q3?.shortDistance) || 0,
+        city_delivery_count: parseInt(formData.b2q3?.cityDelivery) || 0,
 
-        q1_small_truck_20s: parseInt(formData.b2q1?.small_truck?.[0]) || 0,
-        q1_small_truck_30s: parseInt(formData.b2q1?.small_truck?.[1]) || 0,
-        q1_small_truck_40s: parseInt(formData.b2q1?.small_truck?.[2]) || 0,
-        q1_small_truck_50s: parseInt(formData.b2q1?.small_truck?.[3]) || 0,
-        q1_small_truck_60s_plus: parseInt(formData.b2q1?.small_truck?.[4]) || 0,
+        // 問4: 車両別人数
+        kei_cargo_count: parseInt(formData.b2q4?.keiCargo) || 0,
+        small_truck_count: parseInt(formData.b2q4?.smallTruck) || 0,
+        medium_truck_count: parseInt(formData.b2q4?.mediumTruck) || 0,
+        large_truck_count: parseInt(formData.b2q4?.largeTruck) || 0,
+        trailer_count: parseInt(formData.b2q4?.trailer) || 0,
+        other_vehicle_count: parseInt(formData.b2q4?.otherVehicle) || 0,
+        other_vehicle_text: formData.b2q4?.otherVehicle_text || null,
 
-        q1_light_vehicle_20s: parseInt(formData.b2q1?.light_vehicle?.[0]) || 0,
-        q1_light_vehicle_30s: parseInt(formData.b2q1?.light_vehicle?.[1]) || 0,
-        q1_light_vehicle_40s: parseInt(formData.b2q1?.light_vehicle?.[2]) || 0,
-        q1_light_vehicle_50s: parseInt(formData.b2q1?.light_vehicle?.[3]) || 0,
-        q1_light_vehicle_60s_plus: parseInt(formData.b2q1?.light_vehicle?.[4]) || 0,
+        // 問5: 車両形状別人数
+        van_truck_count: parseInt(formData.b2q5?.vanTruck) || 0,
+        flat_body_count: parseInt(formData.b2q5?.flatBody) || 0,
+        dump_truck_count: parseInt(formData.b2q5?.dumpTruck) || 0,
+        unic_count: parseInt(formData.b2q5?.unic) || 0,
+        tank_truck_count: parseInt(formData.b2q5?.tankTruck) || 0,
+        garbage_truck_count: parseInt(formData.b2q5?.garbageTruck) || 0,
+        semi_trailer_count: parseInt(formData.b2q5?.semiTrailer) || 0,
+        other_shape_count: parseInt(formData.b2q5?.otherShape) || 0,
+        other_shape_text: formData.b2q5?.otherShape_text || null,
 
-        q1_trailer_20s: parseInt(formData.b2q1?.trailer?.[0]) || 0,
-        q1_trailer_30s: parseInt(formData.b2q1?.trailer?.[1]) || 0,
-        q1_trailer_40s: parseInt(formData.b2q1?.trailer?.[2]) || 0,
-        q1_trailer_50s: parseInt(formData.b2q1?.trailer?.[3]) || 0,
-        q1_trailer_60s_plus: parseInt(formData.b2q1?.trailer?.[4]) || 0,
+        // 問6: 取扱品目
+        cargo_items: ensureArray(formData.b2q6),
+        cargo_items_other: formData.b2q6_other || null,
 
-        // 問6-11
-        q6_cargo_characteristics: ensureArray(formData.b2q6),
-        q6_cargo_other: formData.b2q6_other || null,
-        q7_loading_methods: ensureArray(formData.b2q7),
-        q7_loading_other: formData.b2q7_other || null,
-        q10_license_methods: ensureArray(formData.b2q10),
-        q10_license_other: formData.b2q10_other || null,
-        q11_other_licenses: ensureArray(formData.b2q11),
-        q11_other_licenses_other: formData.b2q11_other || null,
+        // 問7: 荷役作業
+        loading_methods: ensureArray(formData.b2q7),
+        loading_methods_other: formData.b2q7_other || null,
 
-        // 問4と問5の「その他」テキストフィールド
-        otherVehicle_text: formData.b2q4?.otherVehicle_text || null,
-        otherShape_text: formData.b2q5?.otherShape_text || null
+        // 問8: 免許取得対応（旧b2q10）
+        license_support: ensureArray(formData.b2q8),
+        license_support_other: formData.b2q8_other || null,
+
+        // 問9: その他の免許（旧b2q11）
+        other_licenses: ensureArray(formData.b2q9),
+        other_licenses_other: formData.b2q9_other || null
       }
     }
 
