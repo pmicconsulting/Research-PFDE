@@ -401,7 +401,7 @@ export const surveyData = {
 
   // ブロック4: 全員回答
   block4: {
-    title: 'Ⅳ．その他',
+    title: 'Ⅳ．女性雇用の促進に向けて',
     questions: [
       {
         id: 'b4q1',

@@ -264,30 +264,52 @@ long_distance_count      -- 説明的な名前
    - エラー: `column respondents.draft_data does not exist`
    - 原因: `respondents`テーブルに`draft_data`と`last_auto_save`カラムがない
    - 対応: 移行スクリプト作成 `database/add-draft-columns.sql`
-   - **状態**: ⚠️ スクリプト作成済み・未実行
+   - 実行: ✅ 完了
+   - 検証: ✅ 2カラム追加確認済み
+
+6. **自動保存の406エラー修正**
+   - エラー: `406 Not Acceptable` when loading draft data
+   - 原因: `autoSaveService.js`の`loadDraft()`メソッドで`.single()`を使用
+   - 修正: `.single()` → `.maybeSingle()`に変更
+   - ファイル: `src/services/autoSaveService.js:113`
+   - ビルド: 成功（1.26秒）
+   - Git commit: 4520cd0
+   - プッシュ: 完了
+   - **結論**: 初回訪問時のエラー解消
+
+7. **Block 2問1の従業員数カラム追加**
+   - エラー: `Could not find the 'female_drivers_2020' column`
+   - 原因: `block2_current_employment`テーブルに問1のカラムが存在しない
+   - 対応: 移行スクリプト作成 `database/add-block2-employee-counts.sql`
+   - 追加カラム: 8つ（2020/2025年度の男女別ドライバー・従業員数）
+   - 実行: ✅ 完了
+   - 検証: ✅ 8カラム追加確認済み
+   - **結論**: Block 2データ送信エラー解消
 
 #### データベース移行状況
 
 | スクリプト | 実行状態 | 検証 |
 |-----------|---------|------|
 | `fix-block2-schema-supabase.sql` | ✅ 実行完了 | ✅ 検証済み |
-| `add-draft-columns.sql` | ⚠️ 未実行 | - |
+| `add-draft-columns.sql` | ✅ 実行完了 | ✅ 検証済み |
+| `add-block2-employee-counts.sql` | ✅ 実行完了 | ✅ 検証済み |
 | `add-general-cargo-option.sql` | ⚠️ 未実行 | - |
 | `remove-tragirl-question.sql` | ⚠️ 未実行 | - |
 
 #### 残タスク
 
-1. **自動保存カラム追加**: `add-draft-columns.sql` を実行（最優先）
-2. **残り2つの移行スクリプト実行**: 一般貨物運送事業追加、トラガール削除
-3. **検証テスト**: 全ブロックのデータ保存・取得・自動保存確認
+1. **残り2つの移行スクリプト実行**: 一般貨物運送事業追加、トラガール削除
+2. **検証テスト**: 全ブロックのデータ保存・取得・自動保存確認
 
 ---
 
 **最終更新**: 2025年10月16日
-**最新 Git Commit**: fa4765a
+**最新 Git Commit**: 4520cd0
 **ビルド状態**: ✅ 成功
 **デプロイ状態**: ✅ プッシュ完了
 **Block 2 スキーマ移行**: ✅ 実行完了・検証済み
+**Block 2 問1カラム追加**: ✅ 実行完了・検証済み
 **surveyService.js修正**: ✅ 完了
 **GridField note表示**: ✅ 完了
-**自動保存機能**: ⚠️ カラム追加が必要
+**自動保存機能**: ✅ 完了（406エラー修正済み）
+**Block 2データ送信**: ✅ 完了（従業員数カラム追加済み）
