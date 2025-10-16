@@ -76,9 +76,14 @@ export function useAutoSave(formData, isEnabled = true) {
         setDraftLoaded(true);
 
         // 下書きが見つかったことを通知
-        toast.info('前回の下書きを復元しました', {
+        toast('前回の下書きを復元しました', {
           duration: 4000,
-          position: 'top-center'
+          position: 'top-center',
+          icon: 'ℹ️',
+          style: {
+            background: '#3b82f6',
+            color: 'white'
+          }
         });
 
         return draft.formData;
