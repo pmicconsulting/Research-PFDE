@@ -115,8 +115,7 @@ export const surveyData = {
         type: 'grid',
         title: '問1：2020年及び2025年10月現在の貴社の男女別従業員数（パート、アルバイトを含む）と、その内訳（ドライバー・その他）のおおよその人数をご入力ください。',
         required: true,
-        note: '※複数従事している場合、最も多く従事しているものでカウントします。',
-        rows: [
+          rows: [
           { label: '全ドライバー（男性）', name: 'maleDrivers' },
           { label: '全ドライバー（女性）', name: 'femaleDrivers' },
           { label: '全従業員（男性）', name: 'maleEmployees' },
@@ -137,7 +136,7 @@ export const surveyData = {
         type: 'grid',
         title: '問3：1日当たりの運行距離別に、従事している女性ドライバーの人数をご入力ください。',
         required: true,
-        note: 'なお、複数従事している場合、最も多く従事しているものでカウントします。',
+        note: '※ 複数従事している場合、最も多く従事しているものでカウントします。',
         rows: [
           { label: '長距離（500km超）', name: 'longDistance' },
           { label: '中距離（200～500km）', name: 'mediumDistance' },
@@ -153,7 +152,7 @@ export const surveyData = {
         type: 'grid',
         title: '問4：車両別に、女性ドライバーが乗務している人数をご入力回答ください。',
         required: true,
-        note: '※ 複数の種類に乗務している場合は、乗務時間が大きい方に入れてください。※複数従事している場合、最も多く従事しているものでカウントします。',
+        note: '※複数従事している場合、最も多く従事しているものでカウントします。',
         rows: [
           { label: '軽貨物自動車', name: 'keiCargo' },
           { label: '小型車', name: 'smallTruck' },
@@ -170,7 +169,7 @@ export const surveyData = {
         type: 'grid',
         title: '問5：以下の車両形状別に、女性ドライバーが乗務している人数をご入力回答ください。',
         required: true,
-        note: '※ 複数の形状に乗務している場合は、乗務時間が大きい方に入れてください。※複数従事している場合、最も多く従事しているものでカウントします。',
+        note: '※複数従事している場合、最も多く従事しているものでカウントします。',
         rows: [
           { label: 'バン車（ウイング、冷凍冷蔵車等）', name: 'vanTruck' },
           { label: '平ボディ車', name: 'flatBody' },

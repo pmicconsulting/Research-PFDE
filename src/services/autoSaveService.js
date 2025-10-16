@@ -110,13 +110,9 @@ class AutoSaveService {
         .select('draft_data, last_auto_save')
         .eq('session_id', sessionId)
         .eq('status', 'draft')
-        .single();
+        .maybeSingle();
 
       if (error) {
-        if (error.code === 'PGRST116') {
-          // レコードが見つからない場合は正常
-          return null;
-        }
         throw error;
       }
 
