@@ -2,11 +2,11 @@ import { supabase } from '../lib/supabase';
 
 /**
  * 自動保存サービス
- * フォームデータを120秒ごとに下書きとして保存
+ * フォームデータを300秒ごとに下書きとして保存
  */
 class AutoSaveService {
   constructor() {
-    this.saveInterval = 120000; // 120秒
+    this.saveInterval = 300000; // 300秒
     this.intervalId = null;
     this.lastSaveTime = null;
     this.isSaving = false;
@@ -197,7 +197,7 @@ class AutoSaveService {
       saveCallback();
     }, 30000);
 
-    // その後は120秒間隔
+    // その後は300秒間隔
     this.intervalId = setInterval(() => {
       saveCallback();
     }, this.saveInterval);
