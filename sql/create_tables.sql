@@ -18,6 +18,7 @@ CREATE TABLE IF NOT EXISTS survey_responses (
     prefecture VARCHAR(20),
 
     -- 問2: 事業内容（複数選択可）
+    business_type_general_cargo BOOLEAN DEFAULT FALSE,
     business_type_special_cargo BOOLEAN DEFAULT FALSE,
     business_type_specific_cargo BOOLEAN DEFAULT FALSE,
     business_type_forwarding BOOLEAN DEFAULT FALSE,
@@ -50,7 +51,7 @@ CREATE TABLE IF NOT EXISTS survey_responses (
     -- 問2: 平均在職年数
     avg_tenure_years VARCHAR(20),
 
-    -- 問3: 運行形態別人数
+    -- 問3: 運行距離別人数
     long_distance_count INTEGER,
     medium_distance_count INTEGER,
     short_distance_count INTEGER,
@@ -224,10 +225,7 @@ CREATE TABLE IF NOT EXISTS survey_responses (
     -- 問4: 助成金活用方法
     subsidy_usage TEXT,
 
-    -- 問5: トラガール増加の実感
-    tragirl_increase VARCHAR(50),
-
-    -- 問6: 意見・要望
+    -- 問5: 意見・要望
     opinions TEXT,
 
     -- システム情報

@@ -46,9 +46,10 @@ export const surveyData = {
       {
         id: 'q2',
         type: 'checkbox',
-        title: '問2：貴社が実施している事業内容は何ですか、該当するもの全てを選択して下さい。',
+        title: '問2：貴社が実施している事業内容は何ですか。該当するもの全てを選択して下さい。',
         required: true,
         options: [
+          '【一般】一般自動車貨物運送事業',
           '【特積】貨物自動車運送事業',
           '【特定】貨物自動車運送事業',
           '利用運送事業',
@@ -114,6 +115,7 @@ export const surveyData = {
         type: 'grid',
         title: '問1：2020年及び2025年10月現在の貴社の男女別従業員数（パート、アルバイトを含む）と、その内訳（ドライバー・その他）のおおよその人数をご入力ください。',
         required: true,
+        note: '※複数従事している場合、最も多く従事しているものでカウントします。',
         rows: [
           { label: '全ドライバー（男性）', name: 'maleDrivers' },
           { label: '全ドライバー（女性）', name: 'femaleDrivers' },
@@ -125,33 +127,33 @@ export const surveyData = {
       },
       {
         id: 'b2q2',
+        type: 'select',
+        title: '問2：女性ドライバーの平均在職年数について、おおよその数字をご入力ください。',
+        required: true,
+        options: Array.from({ length: 50 }, (_, i) => `約${i + 1}年`)
+      },
+      {
+        id: 'b2q3',
         type: 'grid',
-        title: '問2：1日当たりの運行距離別に、従事している女性ドライバーの人数をご入力ください。',
+        title: '問3：1日当たりの運行距離別に、従事している女性ドライバーの人数をご入力ください。',
         required: true,
         note: 'なお、複数従事している場合、最も多く従事しているものでカウントします。',
         rows: [
-          { label: '片道200km以上', name: 'longDistance' },
-          { label: '片道100km以上200km未満', name: 'mediumDistance' },
-          { label: '片道50km以上100km未満', name: 'shortDistance' },
-          { label: '片道50km未満', name: 'cityDelivery' }
+          { label: '長距離（500km超）', name: 'longDistance' },
+          { label: '中距離（200～500km）', name: 'mediumDistance' },
+          { label: '近距離（50～200km）', name: 'shortDistance' },
+          { label: '市内配送（100km以内）', name: 'cityDelivery' }
         ],
         columns: ['女性ドライバー人数'],
         selectOptions: ['0'].concat(Array.from({ length: 200 }, (_, i) => `${i + 1}`)),
         firstColumnLabel: '1日当たりの運行距離'
       },
       {
-        id: 'b2q3',
-        type: 'select',
-        title: '問3：女性ドライバーの平均在職年数について、おおよその数字をご入力ください。',
-        required: true,
-        options: Array.from({ length: 50 }, (_, i) => `約${i + 1}年`)
-      },
-      {
         id: 'b2q4',
         type: 'grid',
         title: '問4：車両別に、女性ドライバーが乗務している人数をご入力回答ください。',
         required: true,
-        note: '※ 複数の種類に乗務している場合は、乗務時間が大きい方に入れてください。',
+        note: '※ 複数の種類に乗務している場合は、乗務時間が大きい方に入れてください。※複数従事している場合、最も多く従事しているものでカウントします。',
         rows: [
           { label: '軽貨物自動車', name: 'keiCargo' },
           { label: '小型車', name: 'smallTruck' },
@@ -168,7 +170,7 @@ export const surveyData = {
         type: 'grid',
         title: '問5：以下の車両形状別に、女性ドライバーが乗務している人数をご入力回答ください。',
         required: true,
-        note: '※ 複数の形状に乗務している場合は、乗務時間が大きい方に入れてください。',
+        note: '※ 複数の形状に乗務している場合は、乗務時間が大きい方に入れてください。※複数従事している場合、最も多く従事しているものでカウントします。',
         rows: [
           { label: 'バン車（ウイング、冷凍冷蔵車等）', name: 'vanTruck' },
           { label: '平ボディ車', name: 'flatBody' },
@@ -218,9 +220,9 @@ export const surveyData = {
         hasOther: true
       },
       {
-        id: 'b2q10',
+        id: 'b2q8',
         type: 'checkbox',
-        title: '問10：採用した女性ドライバーで「必要な免許は保有していなかった」場合の対応をお聞きします。免許取得あるいは免許区分の上位免許の更新についてどのようにしましたか。',
+        title: '問8：採用した女性ドライバーで「必要な免許は保有していなかった」場合の対応をお聞きします。免許取得あるいは免許区分の上位免許の更新についてどのようにしましたか。',
         required: true,
         options: [
           '会社が全額負担',
@@ -230,9 +232,9 @@ export const surveyData = {
         hasOther: true
       },
       {
-        id: 'b2q11',
+        id: 'b2q9',
         type: 'checkbox',
-        title: '問11：女性ドライバーは運転免許以外にどのような免許を取得していますか、該当するもの全てを選択してください。',
+        title: '問9：女性ドライバーは運転免許以外にどのような免許を取得していますか、該当するもの全てを選択してください。',
         required: true,
         options: [
           'フォークリフト',
@@ -454,19 +456,8 @@ export const surveyData = {
       },
       {
         id: 'b4q5',
-        type: 'radio',
-        title: '問5：国土交通省では、女性ドライバーである「トラガール」増加への取組みを実施していますが、女性ドライバーの増加を実感できますか、該当するもの１つを選択してください。',
-        required: true,
-        options: [
-          '増加を実感できる',
-          '増加を実感できない',
-          'どちらでもない'
-        ]
-      },
-      {
-        id: 'b4q6',
         type: 'textarea',
-        title: '問6：女性ドライバーの採用や人材育成について、ご意見やご要望がありましたら、自由にご入力ください。',
+        title: '問5：女性ドライバーの採用や人材育成について、ご意見やご要望がありましたら、自由にご入力ください。',
         required: false,
         maxLength: 500,
         rows: 6

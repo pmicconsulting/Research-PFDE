@@ -248,6 +248,18 @@ FROM respondents;
 
 ## 📝 変更履歴
 
+### 2025年10月16日
+- **survey_responses テーブル更新（Block 1 - Question 2）**
+  - `business_type_general_cargo` カラムを追加（問2：【一般】一般自動車貨物運送事業）
+  - 事業内容の選択肢の最初のオプションとして追加
+- **マイグレーションSQL**: `database/add-general-cargo-option.sql`
+  ```sql
+  ALTER TABLE survey_responses
+  ADD COLUMN IF NOT EXISTS business_type_general_cargo BOOLEAN DEFAULT FALSE;
+
+  COMMENT ON COLUMN survey_responses.business_type_general_cargo IS '問2：【一般】一般自動車貨物運送事業';
+  ```
+
 ### 2025年10月15日
 - **block2_current_employment テーブル更新**
   - `otherVehicle_text` カラムを追加（問4：車両別「その他」の詳細入力用）
@@ -268,4 +280,4 @@ FROM respondents;
 - インデックスとセキュリティ設定の記載
 
 ---
-最終更新: 2025年10月15日
+最終更新: 2025年10月16日
