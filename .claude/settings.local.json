@@ -6,7 +6,9 @@
       "Bash(git add:*)",
       "Bash(npm run build)",
       "Bash(git mv:*)",
-      "Bash(tree:*)"
+      "Bash(tree:*)",
+      "Bash(git ls-tree:*)",
+      "Bash(git rm:*)"
     ],
     "deny": [],
     "ask": []

@@ -6,10 +6,10 @@
 
 | 変数名 | 値 | 説明 |
 |--------|-----|------|
-| `VITE_SUPABASE_URL` | `https://dfmgnedobufhvkoemxtu.supabase.co` | Supabase プロジェクトURL |
-| `VITE_SUPABASE_ANON_KEY` | `eyJhbGc...（長い文字列）` | Supabase 公開キー |
-| `SENDGRID_API_KEY` | `SG.xxx...（実際のAPIキー）` | SendGrid APIキー（**VITEプレフィックスなし**） |
-| `SENDGRID_FROM_EMAIL` | `membership-mgr@jta-r.jp` | 送信元メールアドレス |
+| `VITE_SUPABASE_URL` | `[SupabaseプロジェクトURL]` | Supabase プロジェクトURL |
+| `VITE_SUPABASE_ANON_KEY` | `[Supabase公開キー]` | Supabase 公開キー |
+| `SENDGRID_API_KEY` | `[SendGrid APIキー]` | SendGrid APIキー（**VITEプレフィックスなし**） |
+| `SENDGRID_FROM_EMAIL` | `[送信元メールアドレス]` | 送信元メールアドレス |
 
 ### オプションの環境変数
 
@@ -49,10 +49,10 @@
 
 ```bash
 # 必須
-VITE_SUPABASE_URL=https://dfmgnedobufhvkoemxtu.supabase.co
-VITE_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRmbWduZWRvYnVmaHZrb2VteHR1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjAzNTYwNTksImV4cCI6MjA3NTkzMjA1OX0.GFxX6lee67WvpmU8m-TpCutH_bM1jl9IqriSxdV-HYY
-SENDGRID_API_KEY=[実際のAPIキー]
-SENDGRID_FROM_EMAIL=membership-mgr@jta-r.jp
+VITE_SUPABASE_URL=[SupabaseプロジェクトURL]
+VITE_SUPABASE_ANON_KEY=[Supabase公開キー]
+SENDGRID_API_KEY=[SendGrid APIキー]
+SENDGRID_FROM_EMAIL=[送信元メールアドレス]
 
 # オプション
 VITE_APP_ENV=production

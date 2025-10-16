@@ -15,8 +15,10 @@ supabase login
 ## 3. プロジェクトリンク
 
 ```bash
-supabase link --project-ref dfmgnedobufhvkoemxtu
+supabase link --project-ref [YOUR_PROJECT_REF]
 ```
+
+**注意**: `[YOUR_PROJECT_REF]`は自分のSupabaseプロジェクトのリファレンスIDに置き換えてください。
 
 ## 4. 環境変数の設定
 

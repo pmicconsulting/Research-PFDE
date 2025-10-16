@@ -46,8 +46,8 @@ Vercelのログ：
 ### 4. その他の環境変数（既に設定済みの場合は確認のみ）
 
 #### Supabase関連
-- `VITE_SUPABASE_URL`: `https://dfmgnedobufhvkoemxtu.supabase.co`
-- `VITE_SUPABASE_ANON_KEY`: Supabaseの公開キー
+- `VITE_SUPABASE_URL`: [SupabaseプロジェクトURL]
+- `VITE_SUPABASE_ANON_KEY`: [Supabase公開キー]
 
 ### 5. 環境変数を保存
 1. 各環境変数を入力後、**Save** ボタンをクリック
