@@ -6,12 +6,8 @@ import { supabase, getSessionId } from '../lib/supabase'
  * @returns {Promise<{success: boolean, data?: any, error?: any}>}
  */
 export const saveSurveyResponse = async (formData) => {
-  console.log('=== saveSurveyResponse START ===')
-  console.log('Raw formData:', formData)
-
   try {
     const sessionId = getSessionId()
-    console.log('Session ID:', sessionId)
 
     // ブロック1のデータ整形
     const block1Data = {
@@ -131,8 +127,6 @@ export const saveSurveyResponse = async (formData) => {
         q19_government_requests: formData.b3q19 || null,
         q20_association_requests: formData.b3q20 || null
       }
-
-      console.log('Block3 data prepared:', block3Data)
     }
 
     // ブロック4のデータ整形（全員回答）
@@ -151,25 +145,19 @@ export const saveSurveyResponse = async (formData) => {
       q6_email: formData.email || null  // block1問: メールアドレス
     }
 
-    console.log('Block4 data prepared:', block4Data)
-
     // トランザクション開始
     // 1. 回答者レコードを作成
-    console.log('Inserting respondent record...')
     const insertData = {
       session_id: sessionId,
       status: 'completed',
       completed_at: new Date().toISOString()
     }
-    console.log('Insert data:', insertData)
 
     const { data: respondent, error: respondentError } = await supabase
       .from('respondents')
       .insert([insertData])
       .select()
       .single()
-
-    console.log('Respondent insert result:', { respondent, respondentError })
 
     if (respondentError) {
       console.error('Respondent insert error details:', {

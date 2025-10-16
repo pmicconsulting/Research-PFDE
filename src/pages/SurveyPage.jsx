@@ -288,31 +288,19 @@ const SurveyPage = () => {
     if (isSubmitting) return
 
     setIsSubmitting(true)
-    console.log('=== Submit Start ===')
-    console.log('Form data:', formData)
-    console.log('Q4 Answer:', q4Answer)
 
     try {
       // Supabaseに保存
-      console.log('Calling saveSurveyResponse...')
       const result = await saveSurveyResponse(formData)
-      console.log('Save result:', result)
 
       if (result.success) {
-        console.log('Survey saved successfully:', result.data)
-
         // メール送信
         if (formData.email) {
-          console.log('=== 確認メール送信 ===')
-          console.log('送信先:', formData.email)
-          console.log('回答ID:', result.data.respondent_id)
 
           // Node.jsサーバー経由でメール送信
           sendConfirmationEmail(formData, result.data.respondent_id)
             .then(emailResult => {
-              if (emailResult.success) {
-                console.log('Confirmation email sent successfully')
-              } else {
+              if (!emailResult.success) {
                 console.error('Failed to send confirmation email:', emailResult.error)
               }
             })
@@ -331,12 +319,10 @@ const SurveyPage = () => {
         })
       } else {
         console.error('Failed to save survey:', result.error)
-        console.error('Full error object:', result)
         alert('アンケートの送信に失敗しました。もう一度お試しください。\n\nエラー: ' + result.error)
       }
     } catch (error) {
       console.error('Unexpected error:', error)
-      console.error('Error stack:', error.stack)
       alert('予期しないエラーが発生しました。もう一度お試しください。\n\n' + error.message)
     } finally {
       setIsSubmitting(false)

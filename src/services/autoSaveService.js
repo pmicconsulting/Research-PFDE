@@ -29,7 +29,6 @@ class AutoSaveService {
    */
   async saveDraft(formData) {
     if (this.isSaving) {
-      console.log('既に保存処理中です');
       return null;
     }
 
@@ -66,8 +65,6 @@ class AutoSaveService {
 
         if (error) throw error;
         respondentId = data.id;
-
-        console.log(`下書き更新完了: ${now}`);
       } else {
         // 新規レコード作成
         const { data, error } = await supabase
@@ -84,8 +81,6 @@ class AutoSaveService {
 
         if (error) throw error;
         respondentId = data.id;
-
-        console.log(`下書き作成完了: ${now}`);
       }
 
       this.lastSaveTime = now;
@@ -118,7 +113,6 @@ class AutoSaveService {
       }
 
       if (data?.draft_data) {
-        console.log(`下書きデータ復元: 最終保存 ${data.last_auto_save}`);
         return {
           formData: data.draft_data,
           lastSaveTime: data.last_auto_save
@@ -179,8 +173,6 @@ class AutoSaveService {
         throw error;
       }
 
-      console.log('最終送信完了:', data.id);
-
       // セッションIDをクリア（重複送信防止）
       sessionStorage.removeItem('survey_session_id');
 
@@ -197,11 +189,8 @@ class AutoSaveService {
    */
   start(saveCallback) {
     if (this.intervalId) {
-      console.log('自動保存は既に開始されています');
       return;
     }
-
-    console.log('自動保存を開始します（120秒間隔）');
 
     // 最初の保存は30秒後
     setTimeout(() => {
@@ -221,7 +210,6 @@ class AutoSaveService {
     if (this.intervalId) {
       clearInterval(this.intervalId);
       this.intervalId = null;
-      console.log('自動保存を停止しました');
     }
   }
 
