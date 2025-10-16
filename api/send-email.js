@@ -3,10 +3,24 @@ import sgMail from '@sendgrid/mail';
 
 // CORSヘッダーを設定 + エラーハンドリング
 const allowCors = fn => async (req, res) => {
-  // CORSヘッダーを設定
-  res.setHeader('Access-Control-Allow-Credentials', true);
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
+  // 許可するオリジンのリスト
+  const allowedOrigins = [
+    'https://research202510.jta.support',      // 本番環境
+    'https://research-pfde.vercel.app',        // Vercel自動デプロイ
+    'https://research-pfde-git-main-pmis-projects.vercel.app', // Vercelプレビュー
+    'http://localhost:5173',                    // ローカル開発環境
+    'http://localhost:3000'                     // ローカル開発環境（別ポート）
+  ];
+
+  const origin = req.headers.origin;
+
+  // オリジンが許可リストに含まれている場合のみ設定
+  if (allowedOrigins.includes(origin)) {
+    res.setHeader('Access-Control-Allow-Origin', origin);
+    res.setHeader('Access-Control-Allow-Credentials', true);
+  }
+
+  res.setHeader('Access-Control-Allow-Methods', 'POST,OPTIONS');
   res.setHeader(
     'Access-Control-Allow-Headers',
     'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
