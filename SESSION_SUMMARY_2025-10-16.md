@@ -303,13 +303,221 @@ long_distance_count      -- 説明的な名前
 
 ---
 
-**最終更新**: 2025年10月16日
-**最新 Git Commit**: 4520cd0
+## 📝 追加セッション（続き） - 本番環境への準備
+
+**時刻**: 2025年10月16日 夜
+
+### 8. ProgressBarコンポーネントの削除
+
+**問題**: 進捗バーが不正確で誤解を招く
+
+**実施した作業**:
+- `SurveyPage.jsx`からProgressBarコンポーネントとその関連ステートを完全削除
+- 削除項目:
+  - ProgressBarインポート
+  - currentBlock, isSaving, lastSaveTime, manualSaveステート
+  - calculateBlockCompletion関数
+  - Progress Barレンダリング部分
+- ビルド: 成功（1.55秒）
+- Git commit: bd62b6d
+- プッシュ: 完了
+- **結論**: UIがシンプルになり、不正確な進捗表示がなくなった
+
+### 9. toast.infoエラーの修正
+
+**エラー**: `TypeError: sc.info is not a function`
+**場所**: `useAutoSave.js:79`
+
+**原因**: react-hot-toast 2.6.0には`toast.info()`メソッドが存在しない
+
+**修正内容**:
+```javascript
+// 修正前（エラー）
+toast.info('前回の下書きを復元しました', {...})
+
+// 修正後
+toast('前回の下書きを復元しました', {
+  duration: 4000,
+  position: 'top-center',
+  icon: 'ℹ️',
+  style: {
+    background: '#3b82f6',
+    color: 'white'
+  }
+})
+```
+
+- ファイル: `src/hooks/useAutoSave.js:79-87`
+- ビルド: 成功（1.57秒）
+- Git commit: 027cdf4
+- プッシュ: 完了
+- **結論**: 下書き復元時のエラーを解消
+
+### 10. 自動保存の406エラー修正（saveDraft）
+
+**エラー**: `406 Not Acceptable` が120秒ごとに発生
+**場所**: `autoSaveService.js:44-48`
+
+**原因**: 既存レコード確認時に`.single()`を使用していたため、レコードが存在しない初回やレコードが複数の場合にエラー
+
+**修正内容**:
+```javascript
+// 修正前（エラー）
+const { data: existing } = await supabase
+  .from('respondents')
+  .select('id')
+  .eq('session_id', sessionId)
+  .single();
+
+// 修正後
+const { data: existing } = await supabase
+  .from('respondents')
+  .select('id')
+  .eq('session_id', sessionId)
+  .eq('status', 'draft')
+  .maybeSingle();
+```
+
+- ファイル: `src/services/autoSaveService.js:43-48`
+- ビルド: 成功（1.32秒）
+- Git commit: 89ccb06
+- プッシュ: 完了
+- **結論**: 自動保存時の406エラーを完全に解消
+
+### 11. 本番環境へのデバッグログ削除
+
+**目的**: console.logを削除し、console.errorのみ残す
+
+**実施内容**:
+
+#### ① メッセージチャネルエラーの確認
+**エラー**: `Uncaught (in promise) Error: A listener indicated an asynchronous response by returning true, but the message channel closed before a response was received`
+- **結論**: ブラウザ拡張機能の問題であり、アプリケーションコードの問題ではない
+- **対応**: 修正不要
+
+#### ② デバッグログの全体検索と削除
+合計**25個**の`console.log`を削除、**10個**の`console.error`を保持
+
+**surveyService.js**:
+- 削除: 8個の`console.log`
+- 保持: 3個の`console.error`（エラーハンドリング用）
+- 削除例:
+  ```javascript
+  console.log('=== saveSurveyResponse START ===')
+  console.log('Raw formData:', formData)
+  console.log('Session ID:', sessionId)
+  console.log('Block3 data prepared:', block3Data)
+  ```
+
+**autoSaveService.js**:
+- 削除: 8個の`console.log`
+- 保持: 3個の`console.error`（エラーハンドリング用）
+- 削除例:
+  ```javascript
+  console.log('既に保存処理中です')
+  console.log('下書き更新完了: ${now}')
+  console.log('自動保存を開始します（120秒間隔）')
+  ```
+
+**SurveyPage.jsx**:
+- 削除: 9個の`console.log`
+- 保持: 4個の`console.error`（エラーハンドリング用）
+- 削除例:
+  ```javascript
+  console.log('=== Submit Start ===')
+  console.log('Form data:', formData)
+  console.log('Calling saveSurveyResponse...')
+  console.log('Save result:', result)
+  ```
+
+- ビルド: 成功（1.65秒）
+- Git commit: 5c495cc
+- プッシュ: 完了
+- **結論**: 本番環境に適したクリーンなコンソール出力を実現
+
+### 12. 自動保存間隔の変更
+
+**変更内容**: 120秒 → 300秒（5分間隔）
+
+**理由**: サーバーへのリクエスト頻度を削減し、負荷を軽減
+
+**修正箇所**:
+- `autoSaveService.js:9`: `this.saveInterval = 300000;`
+- コメント更新: 「120秒ごと」→「300秒ごと」
+- start()メソッドのコメント: 「その後は120秒間隔」→「その後は300秒間隔」
+
+**自動保存の動作**:
+- 初回保存: ページ読み込みから30秒後
+- 以降の保存: 300秒（5分）ごと
+
+- ファイル: `src/services/autoSaveService.js`
+- ビルド: 成功（1.24秒）
+- Git commit: 833d7a4
+- プッシュ: 完了
+- **結論**: サーバー負荷を削減しつつ、適切な間隔で自動保存を維持
+
+---
+
+## 🎯 セッション全体のまとめ
+
+### 完了した作業（時系列）
+
+1. ✅ アンケート調査票の8つの変更実施
+2. ✅ Block 2スキーマ移行（fix-block2-schema-supabase.sql）
+3. ✅ surveyService.jsのBlock 2データマッピング修正
+4. ✅ GridFieldコンポーネントへのnote表示機能追加
+5. ✅ 自動保存用カラム追加（draft_data, last_auto_save）
+6. ✅ 自動保存の406エラー修正（loadDraft: .maybeSingle()）
+7. ✅ Block 2問1の従業員数カラム追加（8カラム）
+8. ✅ ProgressBarコンポーネントの削除
+9. ✅ toast.infoエラー修正（react-hot-toast互換性）
+10. ✅ 自動保存の406エラー修正（saveDraft: .maybeSingle()）
+11. ✅ 本番環境へのデバッグログ削除（25個削除、10個保持）
+12. ✅ 自動保存間隔の変更（120秒→300秒）
+
+### データベース移行状況（最終）
+
+| スクリプト | 実行状態 | 検証 |
+|-----------|---------|------|
+| `fix-block2-schema-supabase.sql` | ✅ 実行完了 | ✅ 検証済み |
+| `add-draft-columns.sql` | ✅ 実行完了 | ✅ 検証済み |
+| `add-block2-employee-counts.sql` | ✅ 実行完了 | ✅ 検証済み |
+| `add-general-cargo-option.sql` | ⚠️ 未実行 | - |
+| `remove-tragirl-question.sql` | ⚠️ 未実行 | - |
+
+### 修正したバグ一覧
+
+| # | バグ | 原因 | 修正方法 | Commit |
+|---|------|------|---------|--------|
+| 1 | Block 2データ送信エラー | スキーマとコードの不一致 | スキーマ修正 + surveyService.js修正 | 038d97e |
+| 2 | 注記が表示されない | GridFieldにnoteプロパティなし | FormFields.jsx修正 | fa4765a |
+| 3 | 自動保存エラー（draft_data） | カラムが存在しない | add-draft-columns.sql実行 | - |
+| 4 | 自動保存406エラー（load） | .single()使用 | .maybeSingle()に変更 | 4520cd0 |
+| 5 | 従業員数カラムエラー | カラムが存在しない | add-block2-employee-counts.sql実行 | - |
+| 6 | toast.infoエラー | メソッドが存在しない | toast()に変更 | 027cdf4 |
+| 7 | 自動保存406エラー（save） | .single()使用 | .maybeSingle()に変更 | 89ccb06 |
+
+### 最終状態
+
+**最終更新**: 2025年10月16日 夜
+**最新 Git Commit**: 833d7a4
 **ビルド状態**: ✅ 成功
 **デプロイ状態**: ✅ プッシュ完了
-**Block 2 スキーマ移行**: ✅ 実行完了・検証済み
-**Block 2 問1カラム追加**: ✅ 実行完了・検証済み
-**surveyService.js修正**: ✅ 完了
-**GridField note表示**: ✅ 完了
-**自動保存機能**: ✅ 完了（406エラー修正済み）
-**Block 2データ送信**: ✅ 完了（従業員数カラム追加済み）
+**本番環境準備**: ✅ 完了
+
+**機能状態**:
+- ✅ Block 2スキーマ移行完了
+- ✅ Block 2データ送信完了
+- ✅ GridField note表示完了
+- ✅ 自動保存機能完了（全エラー修正済み）
+- ✅ 本番環境用ログ整理完了
+- ✅ 自動保存間隔最適化完了
+- ✅ ProgressBar削除完了
+
+**残タスク**:
+- ⚠️ `add-general-cargo-option.sql`実行（Block 1 Q2新オプション）
+- ⚠️ `remove-tragirl-question.sql`実行（Block 4トラガール削除）
+
+---
+
+**プロジェクト状態**: 本番環境デプロイ準備完了 ✅
