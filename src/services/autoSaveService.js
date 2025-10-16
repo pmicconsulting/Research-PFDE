@@ -45,7 +45,8 @@ class AutoSaveService {
         .from('respondents')
         .select('id')
         .eq('session_id', sessionId)
-        .single();
+        .eq('status', 'draft')
+        .maybeSingle();
 
       let respondentId;
 
