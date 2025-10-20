@@ -11,9 +11,7 @@ if (!supabaseUrl || !supabaseAnonKey) {
   )
 }
 
-console.log('Supabase URL:', supabaseUrl)
-console.log('Supabase Key exists:', !!supabaseAnonKey)
-console.log('Supabase Key length:', supabaseAnonKey?.length)
+// Debug logs removed for production
 
 // Supabaseクライアントの作成
 export const supabase = createClient(supabaseUrl, supabaseAnonKey, {

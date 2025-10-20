@@ -8,7 +8,6 @@ import ErrorBoundary from '../components/ErrorBoundary'
 import SurveyCompanion from '../components/SurveyCompanion'
 import QuestionButton from '../components/QuestionButton'
 import QuestionModal from '../components/QuestionModal'
-import FieldWithQuestion from '../components/survey/FieldWithQuestion'
 import {
   TextField,
   SelectField,
@@ -131,15 +130,21 @@ const SurveyPage = () => {
       }
     }
     initializeDraft()
-  }, [])
+  }, []) // loadDraftを依存配列から除外（初回のみ実行）
+
+  // 問の回答に基づいて表示するブロックを決定
+  useEffect(() => {
+    if (q4Answer === 'currently_employed') {
+      setOpenSections(prev => ({ ...prev, block2: true, block3: true }))
+    } else if (q4Answer === 'previously_employed' || q4Answer === 'never_employed') {
+      setOpenSections(prev => ({ ...prev, block2: true, block3: true }))
+    }
+  }, [q4Answer])
 
   const handleInputChange = (name, value) => {
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }))
+    setFormData(prev => ({ ...prev, [name]: value }))
 
-    // q4の回答を特別に追跡
+    // 問の回答を特別に処理
     if (name === 'q4') {
       setQ4Answer(value)
     }
@@ -194,16 +199,14 @@ const SurveyPage = () => {
   const renderField = (question) => {
     const value = formData[question.id] || ''
 
-    // grid型とgrid_select型、section型は質問ボタン内蔵
-    const needsWrapper = !['grid', 'grid_select', 'section'].includes(question.type)
-
-    const fieldElement = (() => {
+    // 質問ボタンを含むフィールドをラップする
+    const fieldContent = () => {
       switch (question.type) {
         case 'text':
         case 'email':
           return (
             <TextField
-              label={needsWrapper ? '' : question.title}
+              label={question.title}
               name={question.id}
               type={question.type}
               value={value}
@@ -214,227 +217,179 @@ const SurveyPage = () => {
             />
           )
 
-        case 'select':
-          return (
-            <SelectField
-              label={needsWrapper ? '' : question.title}
-              name={question.id}
-              value={value}
-              onChange={(e) => handleInputChange(question.id, e.target.value)}
-              required={question.required}
-              options={question.options}
-            />
-          )
-
-        case 'radio':
-          return (
-            <RadioField
-              label={needsWrapper ? '' : question.title}
-              name={question.id}
-              value={value}
-              onChange={(e) => handleInputChange(question.id, e.target.value)}
-              required={question.required}
-              options={question.options}
-              note={question.note}
-            />
-          )
-
-        case 'checkbox':
-          return (
-            <CheckboxField
-              label={needsWrapper ? '' : question.title}
-              name={question.id}
-              values={formData[question.id] || []}
-              onChange={(option) => handleCheckboxChange(question.id, option)}
-              required={question.required}
-              options={question.options}
-              hasOther={question.hasOther}
-              otherValue={formData[`${question.id}_other`]}
-              onOtherChange={(e) => handleInputChange(`${question.id}_other`, e.target.value)}
-            />
-          )
-
-        case 'number':
-          return (
-            <NumberField
-              label={needsWrapper ? '' : question.title}
-              name={question.id}
-              value={value}
-              onChange={(e) => handleInputChange(question.id, e.target.value)}
-              required={question.required}
-              unit={question.unit}
-            />
-          )
-
-        case 'textarea':
-          return (
-            <TextAreaField
-              label={needsWrapper ? '' : question.title}
-              name={question.id}
-              value={value}
-              onChange={(e) => handleInputChange(question.id, e.target.value)}
-              required={question.required}
-              maxLength={question.maxLength}
-            />
-          )
-
-        case 'section':
-          return (
-            <div className="space-y-4">
-              <div className="flex items-center justify-between">
-                <h4 className="font-semibold text-gray-800">{question.title}</h4>
-                <QuestionButton
-                  questionId={question.id}
-                  questionText={question.title}
-                  onClick={handleQuestionClick}
-                />
-              </div>
-              {question.fields.map(field => (
-                <div key={field.name}>
-                  {/* Section内のフィールド処理（簡略版） */}
-                  {renderSectionField(field)}
-                </div>
-              ))}
-            </div>
-          )
-
-        case 'grid':
-          return (
-            <div>
-              <div className="flex items-center justify-between mb-2">
-                <span className="font-medium text-gray-700">{question.title}</span>
-                <QuestionButton
-                  questionId={question.id}
-                  questionText={question.title}
-                  onClick={handleQuestionClick}
-                />
-              </div>
-              <GridField
-                label=""
-                name={question.id}
-                rows={question.rows}
-                columns={question.columns}
-                values={formData[question.id] || {}}
-                onChange={(rowName, colIndex, value) => {
-                  setFormData(prev => ({
-                    ...prev,
-                    [question.id]: {
-                      ...prev[question.id],
-                      [rowName]: {
-                        ...prev[question.id]?.[rowName],
-                        [colIndex]: value
-                      }
-                    }
-                  }))
-                }}
-                onOtherTextChange={(rowName, value) => {
-                  setFormData(prev => ({
-                    ...prev,
-                    [question.id]: {
-                      ...prev[question.id],
-                      [`${rowName}_text`]: value
-                    }
-                  }))
-                }}
-                required={question.required}
-                type={question.selectOptions ? 'select' : 'number'}
-                selectOptions={question.selectOptions}
-                firstColumnLabel={question.firstColumnLabel}
-                note={question.note}
-              />
-            </div>
-          )
-
-        case 'grid_select':
-          return (
-            <div>
-              <div className="flex items-center justify-between mb-2">
-                <span className="font-medium text-gray-700">{question.title}</span>
-                <QuestionButton
-                  questionId={question.id}
-                  questionText={question.title}
-                  onClick={handleQuestionClick}
-                />
-              </div>
-              <GridSelectField
-                label=""
-                name={question.id}
-                rows={question.rows}
-                values={formData[question.id] || {}}
-                onChange={(rowName, value) => {
-                  setFormData(prev => ({
-                    ...prev,
-                    [question.id]: {
-                      ...prev[question.id],
-                      [rowName]: value
-                    }
-                  }))
-                }}
-                required={question.required}
-                note={question.note}
-                options={question.options}
-              />
-            </div>
-          )
-
-        default:
-          return null
-      }
-    })()
-
-    // ラッパーが必要な場合は質問ボタン付きで返す
-    if (needsWrapper && fieldElement) {
-      return (
-        <FieldWithQuestion
-          questionId={question.id}
-          questionText={question.title}
-          onQuestionClick={handleQuestionClick}
-        >
-          {fieldElement}
-        </FieldWithQuestion>
-      )
-    }
-
-    return fieldElement
-  }
-
-  // セクション内フィールドの簡略レンダリング
-  const renderSectionField = (field) => {
-    switch (field.type) {
-      case 'text':
-      case 'email':
-        return (
-          <TextField
-            label={field.label}
-            name={field.name}
-            type={field.type || 'text'}
-            value={formData[field.name] || ''}
-            onChange={(e) => handleInputChange(field.name, e.target.value)}
-            required={field.required}
-          />
-        )
       case 'select':
         return (
           <SelectField
-            label={field.label}
-            name={field.name}
-            value={formData[field.name] || ''}
-            onChange={(e) => handleInputChange(field.name, e.target.value)}
-            required={field.required}
-            options={field.options}
+            label={question.title}
+            name={question.id}
+            value={value}
+            onChange={(e) => handleInputChange(question.id, e.target.value)}
+            required={question.required}
+            options={question.options}
           />
         )
+
       case 'radio':
         return (
           <RadioField
-            label={field.label}
-            name={field.name}
-            value={formData[field.name] || ''}
-            onChange={(e) => handleInputChange(field.name, e.target.value)}
-            required={field.required}
-            options={field.options}
+            label={question.title}
+            name={question.id}
+            value={value}
+            onChange={(e) => handleInputChange(question.id, e.target.value)}
+            required={question.required}
+            options={question.options}
+            note={question.note}
           />
         )
+
+      case 'checkbox':
+        return (
+          <CheckboxField
+            label={question.title}
+            name={question.id}
+            values={formData[question.id] || []}
+            onChange={(option) => handleCheckboxChange(question.id, option)}
+            required={question.required}
+            options={question.options}
+            hasOther={question.hasOther}
+            otherValue={formData[`${question.id}_other`]}
+            onOtherChange={(e) => handleInputChange(`${question.id}_other`, e.target.value)}
+          />
+        )
+
+      case 'number':
+        return (
+          <NumberField
+            label={question.title}
+            name={question.id}
+            value={value}
+            onChange={(e) => handleInputChange(question.id, e.target.value)}
+            required={question.required}
+            unit={question.unit}
+          />
+        )
+
+      case 'textarea':
+        return (
+          <TextAreaField
+            label={question.title}
+            name={question.id}
+            value={value}
+            onChange={(e) => handleInputChange(question.id, e.target.value)}
+            required={question.required}
+            maxLength={question.maxLength}
+          />
+        )
+
+      case 'section':
+        return (
+          <div className="space-y-4">
+            <h4 className="font-semibold text-gray-800 mb-3">{question.title}</h4>
+            {question.fields.map(field => (
+              <div key={field.name}>
+                {field.type === 'text' && (
+                  <TextField
+                    label={field.label}
+                    name={field.name}
+                    value={formData[field.name] || ''}
+                    onChange={(e) => handleInputChange(field.name, e.target.value)}
+                    required={field.required}
+                  />
+                )}
+                {field.type === 'email' && (
+                  <TextField
+                    label={field.label}
+                    name={field.name}
+                    type="email"
+                    value={formData[field.name] || ''}
+                    onChange={(e) => handleInputChange(field.name, e.target.value)}
+                    required={field.required}
+                  />
+                )}
+                {field.type === 'select' && (
+                  <SelectField
+                    label={field.label}
+                    name={field.name}
+                    value={formData[field.name] || ''}
+                    onChange={(e) => handleInputChange(field.name, e.target.value)}
+                    required={field.required}
+                    options={field.options}
+                  />
+                )}
+                {field.type === 'radio' && (
+                  <RadioField
+                    label={field.label}
+                    name={field.name}
+                    value={formData[field.name] || ''}
+                    onChange={(e) => handleInputChange(field.name, e.target.value)}
+                    required={field.required}
+                    options={field.options}
+                  />
+                )}
+              </div>
+            ))}
+          </div>
+        )
+
+      case 'grid':
+        return (
+          <GridField
+            label={question.title}
+            name={question.id}
+            rows={question.rows}
+            columns={question.columns}
+            values={formData[question.id] || {}}
+            onChange={(rowName, colIndex, value) => {
+              setFormData(prev => ({
+                ...prev,
+                [question.id]: {
+                  ...prev[question.id],
+                  [rowName]: {
+                    ...prev[question.id]?.[rowName],
+                    [colIndex]: value
+                  }
+                }
+              }))
+            }}
+            onOtherTextChange={(rowName, value) => {
+              setFormData(prev => ({
+                ...prev,
+                [question.id]: {
+                  ...prev[question.id],
+                  [`${rowName}_text`]: value
+                }
+              }))
+            }}
+            required={question.required}
+            type={question.selectOptions ? 'select' : 'number'}
+            selectOptions={question.selectOptions}
+            firstColumnLabel={question.firstColumnLabel}
+            note={question.note}
+          />
+        )
+
+      case 'grid_select':
+        return (
+          <GridSelectField
+            label={question.title}
+            name={question.id}
+            rows={question.rows}
+            values={formData[question.id] || {}}
+            onChange={(rowName, value) => {
+              setFormData(prev => ({
+                ...prev,
+                [question.id]: {
+                  ...prev[question.id],
+                  [rowName]: value
+                }
+              }))
+            }}
+            required={question.required}
+            note={question.note}
+            options={question.options}
+          />
+        )
+
       default:
         return null
     }
@@ -454,28 +409,39 @@ const SurveyPage = () => {
       if (result.success) {
         // メール送信
         if (formData.email) {
-          try {
-            await sendConfirmationEmail(formData.email, result.respondentId)
-          } catch (emailError) {
-            console.error('メール送信エラー:', emailError)
-          }
+
+          // Node.jsサーバー経由でメール送信
+          sendConfirmationEmail(formData, result.data.respondent_id)
+            .then(emailResult => {
+              if (!emailResult.success) {
+                console.error('Failed to send confirmation email:', emailResult.error)
+              }
+            })
+            .catch(error => {
+              console.error('Error sending email:', error)
+            })
         }
 
-        // 完了ページへ遷移
+        // 完了ページに回答IDを渡す
         navigate('/completion', {
           state: {
-            respondentId: result.respondentId,
-            email: formData.email
+            respondentId: result.data.respondent_id,
+            sessionId: result.data.session_id,
+            emailSent: !!formData.email
           }
         })
+      } else {
+        console.error('Failed to save survey:', result.error)
+        alert('アンケートの送信に失敗しました。もう一度お試しください。\n\nエラー: ' + result.error)
       }
     } catch (error) {
-      console.error('送信エラー:', error)
-      alert('送信中にエラーが発生しました。もう一度お試しください。')
+      console.error('Unexpected error:', error)
+      alert('予期しないエラーが発生しました。もう一度お試しください。\n\n' + error.message)
     } finally {
       setIsSubmitting(false)
     }
   }
+
 
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-br from-blue-50 via-white to-blue-50">
@@ -568,7 +534,7 @@ const SurveyPage = () => {
                   戻る
                 </Button>
                 <Button type="submit" disabled={isSubmitting}>
-                  {isSubmitting ? '送信中...' : '送信する'}
+                  {isSubmitting ? '送信中...' : '回答を送信'}
                 </Button>
               </div>
             </form>

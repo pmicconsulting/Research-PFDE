@@ -13,14 +13,14 @@ export const sendConfirmationEmail = async (formData, respondentId) => {
   try {
     // メールアドレスがない場合はスキップ
     if (!formData.email) {
-      console.log('No email address provided, skipping email confirmation')
+      // No email address provided, skipping email confirmation
       return {
         success: true,
         message: 'メールアドレスが入力されていないため、確認メールは送信されませんでした。'
       }
     }
 
-    console.log('Sending confirmation email to:', formData.email)
+    // Sending confirmation email
 
     // Vercel Functionsのエンドポイントを使用
     const response = await fetch('/api/send-email', {
@@ -41,14 +41,14 @@ export const sendConfirmationEmail = async (formData, respondentId) => {
       throw new Error(data.error || 'メール送信に失敗しました')
     }
 
-    console.log('Email sent successfully:', data)
+    // Email sent successfully
     return {
       success: true,
       message: '確認メールを送信しました。'
     }
 
   } catch (error) {
-    console.error('Failed to send confirmation email:', error)
+    // Failed to send confirmation email
     return {
       success: false,
       error: error.message || 'メール送信に失敗しました。'
