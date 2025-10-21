@@ -436,7 +436,8 @@ export const surveyData = {
       {
         id: 'b4q3',
         type: 'radio',
-        title: '問3：女性活躍に対する助成金制度（厚生労働省「両立支援等助成金」等）について、該当するもの1つを選択してください。',
+        title: '問3：女性活躍に対する助成金制度（<a href="https://www.mhlw.go.jp/content/001472912.pdf" target="_blank" rel="noopener noreferrer" class="text-blue-600 underline hover:text-blue-800">厚生労働省「両立支援等助成金」</a>等）について、該当するもの1つを選択してください。',
+        hasHtml: true,
         required: true,
         options: [
           '制度を活用したことがある（活用している）',

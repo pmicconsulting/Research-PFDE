@@ -195,6 +195,7 @@ const SurveyPage = () => {
               required={question.required}
               options={question.options}
               note={question.note}
+              hasHtml={question.hasHtml}
             />
           )
 

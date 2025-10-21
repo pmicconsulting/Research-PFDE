@@ -47,12 +47,21 @@ export const SelectField = ({ label, name, value, onChange, required, options })
   );
 };
 
-export const RadioField = ({ label, name, value, onChange, required, options, note }) => {
+export const RadioField = ({ label, name, value, onChange, required, options, note, hasHtml }) => {
   return (
     <div className="mb-6 p-5 border border-gray-200 rounded-lg bg-gray-50">
       <label className="block text-base font-semibold text-blue-700 mb-3">
-        {label}
-        {required && <span className="text-red-500 ml-1">*</span>}
+        {hasHtml ? (
+          <span>
+            <span dangerouslySetInnerHTML={{ __html: label }} />
+            {required && <span className="text-red-500 ml-1">*</span>}
+          </span>
+        ) : (
+          <>
+            {label}
+            {required && <span className="text-red-500 ml-1">*</span>}
+          </>
+        )}
       </label>
       {note && <p className="text-sm text-gray-600 mb-3">{note}</p>}
       <div className="space-y-1">
