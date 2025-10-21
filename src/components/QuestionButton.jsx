@@ -7,12 +7,9 @@ const QuestionButton = ({ questionId, questionText, onClick }) => {
     <button
       type="button"
       onClick={() => onClick(questionId, questionText)}
-      className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-gradient-to-r from-pink-500 to-purple-600 text-white rounded-full text-xs font-medium shadow-md hover:shadow-lg hover:scale-105 transition-all duration-200"
-      aria-label="トラガールに質問する"
+      className="inline-flex items-center justify-center p-2 bg-gradient-to-r from-pink-500 to-purple-600 text-white rounded-full shadow-md hover:shadow-lg hover:scale-105 transition-all duration-200"
     >
-      <SparklesIcon className="h-3.5 w-3.5" />
-      <span>トラガールに質問！</span>
-      <QuestionMarkCircleIcon className="h-3.5 w-3.5" />
+      <QuestionMarkCircleIcon className="h-4 w-4" />
     </button>
   );
 };

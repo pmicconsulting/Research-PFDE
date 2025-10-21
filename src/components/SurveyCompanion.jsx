@@ -12,7 +12,7 @@ const SurveyCompanion = ({ progress, currentBlock, totalQuestions, answeredQuest
   // 進捗に応じたメッセージ
   const getProgressMessage = () => {
     if (progress === 0) {
-      return 'アンケートへのご協力ありがとうございます！不明な点があれば、「トラガール」ボタンをクリックしてご質問ください。';
+      return 'アンケートへのご協力ありがとうございます！';
     } else if (progress < 25) {
       return '良いスタートです！ゆっくりお答えください。';
     } else if (progress < 50) {

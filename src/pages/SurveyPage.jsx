@@ -6,9 +6,6 @@ import Button from '../components/common/Button'
 import AccordionSection from '../components/survey/AccordionSection'
 import ErrorBoundary from '../components/ErrorBoundary'
 import SurveyCompanion from '../components/SurveyCompanion'
-import QuestionButton from '../components/QuestionButton'
-import QuestionModal from '../components/QuestionModal'
-import FieldWithQuestion from '../components/survey/FieldWithQuestion'
 import {
   TextField,
   SelectField,
@@ -23,7 +20,6 @@ import { surveyData } from '../data/surveyData'
 import { saveSurveyResponse } from '../services/surveyService'
 import { sendConfirmationEmail } from '../services/emailService'
 import { useAutoSave } from '../hooks/useAutoSave'
-import aiQuestionService from '../services/aiQuestionService'
 
 const SurveyPage = () => {
   const navigate = useNavigate()
@@ -37,12 +33,6 @@ const SurveyPage = () => {
   })
   const [q4Answer, setQ4Answer] = useState('')
 
-  // 質問モーダルの状態
-  const [questionModal, setQuestionModal] = useState({
-    isOpen: false,
-    questionId: '',
-    questionText: ''
-  })
 
   // 自動保存機能を有効化
   const {
@@ -162,40 +152,9 @@ const SurveyPage = () => {
     }))
   }
 
-  // 質問ボタンクリックハンドラー
-  const handleQuestionClick = (questionId, questionText) => {
-    setQuestionModal({
-      isOpen: true,
-      questionId,
-      questionText
-    })
-  }
-
-  // 質問送信ハンドラー
-  const handleQuestionSubmit = async (questionId, questionText, userQuestion) => {
-    try {
-      const answer = await aiQuestionService.getAnswer(questionId, questionText, userQuestion)
-      return answer
-    } catch (error) {
-      console.error('質問回答エラー:', error)
-      return '申し訳ございません。回答の取得中にエラーが発生しました。もう一度お試しください。'
-    }
-  }
-
-  // モーダルクローズハンドラー
-  const handleModalClose = () => {
-    setQuestionModal({
-      isOpen: false,
-      questionId: '',
-      questionText: ''
-    })
-  }
 
   const renderField = (question) => {
     const value = formData[question.id] || ''
-
-    // grid型とgrid_select型、section型は質問ボタン内蔵
-    const needsWrapper = !['grid', 'grid_select', 'section'].includes(question.type)
 
     const fieldElement = (() => {
       switch (question.type) {
@@ -203,7 +162,7 @@ const SurveyPage = () => {
         case 'email':
           return (
             <TextField
-              label={needsWrapper ? '' : question.title}
+              label={question.title}
               name={question.id}
               type={question.type}
               value={value}
@@ -217,7 +176,7 @@ const SurveyPage = () => {
         case 'select':
           return (
             <SelectField
-              label={needsWrapper ? '' : question.title}
+              label={question.title}
               name={question.id}
               value={value}
               onChange={(e) => handleInputChange(question.id, e.target.value)}
@@ -229,7 +188,7 @@ const SurveyPage = () => {
         case 'radio':
           return (
             <RadioField
-              label={needsWrapper ? '' : question.title}
+              label={question.title}
               name={question.id}
               value={value}
               onChange={(e) => handleInputChange(question.id, e.target.value)}
@@ -242,7 +201,7 @@ const SurveyPage = () => {
         case 'checkbox':
           return (
             <CheckboxField
-              label={needsWrapper ? '' : question.title}
+              label={question.title}
               name={question.id}
               values={formData[question.id] || []}
               onChange={(option) => handleCheckboxChange(question.id, option)}
@@ -257,7 +216,7 @@ const SurveyPage = () => {
         case 'number':
           return (
             <NumberField
-              label={needsWrapper ? '' : question.title}
+              label={question.title}
               name={question.id}
               value={value}
               onChange={(e) => handleInputChange(question.id, e.target.value)}
@@ -269,7 +228,7 @@ const SurveyPage = () => {
         case 'textarea':
           return (
             <TextAreaField
-              label={needsWrapper ? '' : question.title}
+              label={question.title}
               name={question.id}
               value={value}
               onChange={(e) => handleInputChange(question.id, e.target.value)}
@@ -281,14 +240,7 @@ const SurveyPage = () => {
         case 'section':
           return (
             <div className="space-y-4">
-              <div className="flex items-center justify-between">
-                <h4 className="font-semibold text-gray-800">{question.title}</h4>
-                <QuestionButton
-                  questionId={question.id}
-                  questionText={question.title}
-                  onClick={handleQuestionClick}
-                />
-              </div>
+              <h4 className="font-semibold text-gray-800">{question.title}</h4>
               {question.fields.map(field => (
                 <div key={field.name}>
                   {/* Section内のフィールド処理（簡略版） */}
@@ -301,14 +253,7 @@ const SurveyPage = () => {
         case 'grid':
           return (
             <div>
-              <div className="flex items-center justify-between mb-2">
-                <span className="font-medium text-gray-700">{question.title}</span>
-                <QuestionButton
-                  questionId={question.id}
-                  questionText={question.title}
-                  onClick={handleQuestionClick}
-                />
-              </div>
+              <span className="block font-medium text-gray-700 mb-2">{question.title}</span>
               <GridField
                 label=""
                 name={question.id}
@@ -348,14 +293,7 @@ const SurveyPage = () => {
         case 'grid_select':
           return (
             <div>
-              <div className="flex items-center justify-between mb-2">
-                <span className="font-medium text-gray-700">{question.title}</span>
-                <QuestionButton
-                  questionId={question.id}
-                  questionText={question.title}
-                  onClick={handleQuestionClick}
-                />
-              </div>
+              <span className="block font-medium text-gray-700 mb-2">{question.title}</span>
               <GridSelectField
                 label=""
                 name={question.id}
@@ -381,19 +319,6 @@ const SurveyPage = () => {
           return null
       }
     })()
-
-    // ラッパーが必要な場合は質問ボタン付きで返す
-    if (needsWrapper && fieldElement) {
-      return (
-        <FieldWithQuestion
-          questionId={question.id}
-          questionText={question.title}
-          onQuestionClick={handleQuestionClick}
-        >
-          {fieldElement}
-        </FieldWithQuestion>
-      )
-    }
 
     return fieldElement
   }
@@ -577,15 +502,6 @@ const SurveyPage = () => {
       </main>
 
       <Footer />
-
-      {/* 質問モーダル */}
-      <QuestionModal
-        isOpen={questionModal.isOpen}
-        onClose={handleModalClose}
-        questionId={questionModal.questionId}
-        questionText={questionModal.questionText}
-        onSubmit={handleQuestionSubmit}
-      />
     </div>
   )
 }
