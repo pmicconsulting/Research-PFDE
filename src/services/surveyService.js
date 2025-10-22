@@ -1,4 +1,5 @@
 import { supabase, getSessionId } from '../lib/supabase'
+import { getDomainInfo } from '../utils/domainIdentifier'
 
 /**
  * アンケート回答を保存する
@@ -145,12 +146,19 @@ export const saveSurveyResponse = async (formData) => {
       q6_email: formData.email || null  // block1問: メールアドレス
     }
 
+    // ドメイン情報を取得
+    const domainInfo = getDomainInfo();
+
     // トランザクション開始
-    // 1. 回答者レコードを作成
+    // 1. 回答者レコードを作成（ドメイン情報を含む）
     const insertData = {
       session_id: sessionId,
       status: 'completed',
-      completed_at: new Date().toISOString()
+      completed_at: new Date().toISOString(),
+      source_domain: domainInfo.source_domain,
+      source_url: domainInfo.source_url,
+      source_identifier: domainInfo.source_identifier,
+      user_agent: domainInfo.user_agent
     }
 
     const { data: respondent, error: respondentError } = await supabase

@@ -1,4 +1,5 @@
 import { supabase } from '../lib/supabase';
+import { getDomainInfo } from '../utils/domainIdentifier';
 
 /**
  * 自動保存サービス
@@ -66,7 +67,8 @@ class AutoSaveService {
         if (error) throw error;
         respondentId = data.id;
       } else {
-        // 新規レコード作成
+        // 新規レコード作成（ドメイン情報を含む）
+        const domainInfo = getDomainInfo();
         const { data, error } = await supabase
           .from('respondents')
           .insert({
@@ -74,7 +76,11 @@ class AutoSaveService {
             draft_data: formData,
             status: 'draft',
             last_auto_save: now,
-            email: formData.email || null
+            email: formData.email || null,
+            source_domain: domainInfo.source_domain,
+            source_url: domainInfo.source_url,
+            source_identifier: domainInfo.source_identifier,
+            user_agent: domainInfo.user_agent
           })
           .select('id')
           .single();
@@ -153,8 +159,9 @@ class AutoSaveService {
         .single();
 
       if (error) {
-        // レコードがない場合は新規作成
+        // レコードがない場合は新規作成（ドメイン情報を含む）
         if (error.code === 'PGRST116') {
+          const domainInfo = getDomainInfo();
           const { data: newData, error: insertError } = await supabase
             .from('respondents')
             .insert({
@@ -162,7 +169,11 @@ class AutoSaveService {
               status: 'completed',
               completed_at: now,
               submission_data: formData,
-              email: formData.email || null
+              email: formData.email || null,
+              source_domain: domainInfo.source_domain,
+              source_url: domainInfo.source_url,
+              source_identifier: domainInfo.source_identifier,
+              user_agent: domainInfo.user_agent
             })
             .select('id')
             .single();
