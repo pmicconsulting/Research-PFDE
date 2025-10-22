@@ -14,7 +14,8 @@
       "Bash(git log:*)",
       "Bash(npm audit:*)",
       "Bash(npm install:*)",
-      "Bash(npm run dev)"
+      "Bash(npm run dev)",
+      "Bash(vercel --version:*)"
     ],
     "deny": [],
     "ask": []
