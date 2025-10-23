@@ -15,7 +15,9 @@ export const TextField = ({ label, name, value, onChange, required, type = 'text
         onChange={onChange}
         required={required}
         placeholder={placeholder}
-        className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors bg-white"
+        autoComplete={type === 'email' ? 'email' : type === 'tel' ? 'tel' : 'off'}
+        inputMode={type === 'email' ? 'email' : type === 'tel' ? 'tel' : type === 'number' ? 'numeric' : 'text'}
+        className="w-full px-4 py-3 sm:py-2.5 text-base sm:text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors bg-white"
       />
     </div>
   );

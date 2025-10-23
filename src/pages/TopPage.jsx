@@ -18,17 +18,17 @@ const TopPage = () => {
 
       <main className="flex-grow">
         {/* Hero Section */}
-        <section className="relative bg-gradient-to-br from-blue-600 via-blue-700 to-blue-800 text-white py-20 px-4 overflow-hidden">
+        <section className="relative bg-gradient-to-br from-blue-600 via-blue-700 to-blue-800 text-white py-12 sm:py-20 px-4 overflow-hidden">
           <div className="absolute inset-0 bg-grid-pattern opacity-10"></div>
           <div className="max-w-4xl mx-auto text-center relative z-10">
             <div className="mb-8">
-              <div className="inline-block bg-white/20 backdrop-blur-sm rounded-full px-6 py-2 mb-6">
-                <p className="text-sm font-semibold">令和７年度 実態調査</p>
+              <div className="inline-block bg-white/20 backdrop-blur-sm rounded-full px-4 sm:px-6 py-2 mb-4 sm:mb-6">
+                <p className="text-xs sm:text-sm font-semibold">令和７年度 実態調査</p>
               </div>
-              <h2 className="text-4xl sm:text-5xl font-bold mb-6 leading-tight">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 sm:mb-6 leading-tight">
                 ご協力のお願い
               </h2>
-              <p className="text-xl sm:text-2xl mb-8 leading-relaxed">
+              <p className="text-lg sm:text-xl md:text-2xl mb-6 sm:mb-8 leading-relaxed">
                 トラック運送業界における<br className="sm:hidden" />
                 女性の活躍推進のため、<br />
                 皆様のご意見をお聞かせください
