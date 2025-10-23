@@ -40,12 +40,14 @@ class AutoSaveService {
       // 現在のタイムスタンプ
       const now = new Date().toISOString();
 
-      // 既存のレコードを確認
+      // 既存のレコードを確認（最新の1件を取得）
       const { data: existing, error: fetchError } = await supabase
         .from('respondents')
         .select('id')
         .eq('session_id', sessionId)
         .eq('status', 'draft')
+        .order('created_at', { ascending: false })
+        .limit(1)
         .maybeSingle();
 
       let respondentId;
@@ -112,6 +114,8 @@ class AutoSaveService {
         .select('draft_data, last_auto_save')
         .eq('session_id', sessionId)
         .eq('status', 'draft')
+        .order('created_at', { ascending: false })
+        .limit(1)
         .maybeSingle();
 
       if (error) {

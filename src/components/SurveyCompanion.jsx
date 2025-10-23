@@ -72,8 +72,8 @@ const SurveyCompanion = ({ progress, currentBlock, totalQuestions, answeredQuest
   }
 
   return (
-    <div className={`fixed bottom-2 right-2 sm:bottom-6 sm:right-6 z-35 transition-all duration-300 ${isVisible ? 'translate-x-0' : 'translate-x-[calc(100%+2rem)]'}`}>
-      <div className="flex items-end space-x-1 sm:space-x-4 scale-75 sm:scale-100 origin-bottom-right">
+    <div className={`fixed bottom-2 right-2 sm:bottom-6 sm:right-6 z-20 transition-all duration-300 pointer-events-none ${isVisible ? 'translate-x-0' : 'translate-x-[calc(100%+2rem)]'}`}>
+      <div className="flex items-end space-x-1 sm:space-x-4 scale-75 sm:scale-100 origin-bottom-right pointer-events-auto">
         {/* メッセージバブル */}
         {isVisible && (
           <div className={`bg-white rounded-2xl shadow-xl border border-gray-100 p-3 sm:p-5 max-w-[260px] sm:max-w-sm transition-all duration-300 ${isAnimating ? 'scale-95 opacity-50' : 'scale-100 opacity-100'}`}>

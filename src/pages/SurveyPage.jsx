@@ -5,7 +5,6 @@ import Footer from '../components/layout/Footer'
 import Button from '../components/common/Button'
 import AccordionSection from '../components/survey/AccordionSection'
 import ErrorBoundary from '../components/ErrorBoundary'
-import SurveyCompanion from '../components/SurveyCompanion'
 import {
   TextField,
   SelectField,
@@ -419,17 +418,10 @@ const SurveyPage = () => {
     <div className="min-h-screen flex flex-col bg-gradient-to-br from-blue-50 via-white to-blue-50">
       <Header />
 
-      {/* サーベイコンパニオン（伴走キャラクター） */}
-      <SurveyCompanion
-        progress={calculateProgress.progress}
-        currentBlock={currentBlock}
-        totalQuestions={calculateProgress.totalQuestions}
-        answeredQuestions={calculateProgress.answeredQuestions}
-      />
 
-      <main className="flex-grow py-6 sm:py-12 px-2 sm:px-4 pb-20 sm:pb-12">
-        <div className="max-w-4xl mx-auto">
-          <div className="bg-white rounded-2xl shadow-xl p-4 sm:p-8 md:p-12">
+      <main className="flex-grow py-6 sm:py-12 px-2 sm:px-4 pb-24 sm:pb-12">
+        <div className="max-w-4xl mx-auto relative">
+          <div className="bg-white rounded-2xl shadow-xl p-4 sm:p-8 md:p-12 relative z-10">
             <form onSubmit={handleSubmit} className="space-y-6">
               {/* ブロック1: 基本情報（全員回答） */}
               <AccordionSection
