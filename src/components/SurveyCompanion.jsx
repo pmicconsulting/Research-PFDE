@@ -56,11 +56,11 @@ const SurveyCompanion = ({ progress, currentBlock, totalQuestions, answeredQuest
   }, [progress, currentBlock]);
 
   return (
-    <div className={`fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-40 transition-all duration-300 ${isVisible ? 'translate-x-0' : 'translate-x-[calc(100%+2rem)]'}`}>
-      <div className="flex items-end space-x-2 sm:space-x-4">
+    <div className={`fixed bottom-2 right-2 sm:bottom-6 sm:right-6 z-40 transition-all duration-300 ${isVisible ? 'translate-x-0' : 'translate-x-[calc(100%+2rem)]'}`}>
+      <div className="flex items-end space-x-1 sm:space-x-4 scale-85 sm:scale-100 origin-bottom-right">
         {/* メッセージバブル */}
         {isVisible && (
-          <div className={`bg-white rounded-2xl shadow-xl border border-gray-100 p-4 sm:p-5 max-w-[280px] sm:max-w-sm transition-all duration-300 ${isAnimating ? 'scale-95 opacity-50' : 'scale-100 opacity-100'}`}>
+          <div className={`bg-white rounded-2xl shadow-xl border border-gray-100 p-3 sm:p-5 max-w-[260px] sm:max-w-sm transition-all duration-300 ${isAnimating ? 'scale-95 opacity-50' : 'scale-100 opacity-100'}`}>
             <div className="flex items-start space-x-3">
               <div className="bg-gradient-to-br from-yellow-300 to-orange-400 rounded-full p-1.5">
                 <SparklesIcon className="h-5 w-5 text-white flex-shrink-0" />

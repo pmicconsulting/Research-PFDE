@@ -196,8 +196,59 @@ export const GridField = ({ label, name, rows, columns, values, onChange, requir
         {required && <span className="text-red-500 ml-1">*</span>}
       </label>
       {note && <p className="text-sm text-gray-600 mb-3">{note}</p>}
-      <div className="overflow-x-auto -mx-5 px-5 sm:mx-0 sm:px-0">
-        <table className="w-full border-collapse min-w-[600px]">
+
+      {/* モバイル用カード表示 */}
+      <div className="block sm:hidden space-y-4">
+        {rows && rows.map((row, rowIndex) => (
+          <div key={rowIndex} className="bg-white border border-gray-300 rounded-lg p-4">
+            <h4 className="font-semibold text-gray-700 mb-3">{row.label}</h4>
+            {row.hasTextField && (
+              <input
+                type="text"
+                name={`${name}_${row.name}_text`}
+                value={values?.[`${row.name}_text`] || ''}
+                onChange={(e) => onOtherTextChange && onOtherTextChange(row.name, e.target.value)}
+                className="w-full mb-3 px-3 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                placeholder="詳細を入力"
+              />
+            )}
+            <div className="space-y-2">
+              {columns && columns.map((col, colIndex) => (
+                <div key={colIndex} className="flex items-center justify-between">
+                  <label className="text-sm font-medium text-gray-600">{col}:</label>
+                  {type === 'select' && selectOptions ? (
+                    <select
+                      name={`${name}_${row.name}_${colIndex}`}
+                      value={values?.[row.name]?.[colIndex] || ''}
+                      onChange={(e) => onChange(row.name, colIndex, e.target.value)}
+                      className="ml-2 flex-1 max-w-[150px] px-2 py-1 text-sm border border-gray-300 rounded focus:ring-2 focus:ring-blue-500"
+                    >
+                      <option value="">選択</option>
+                      {selectOptions && Array.isArray(selectOptions) && selectOptions.map((opt, optIndex) => (
+                        <option key={optIndex} value={opt}>{opt}</option>
+                      ))}
+                    </select>
+                  ) : (
+                    <input
+                      type={type}
+                      inputMode={type === 'number' ? 'numeric' : 'text'}
+                      name={`${name}_${row.name}_${colIndex}`}
+                      value={values?.[row.name]?.[colIndex] || ''}
+                      onChange={(e) => onChange(row.name, colIndex, e.target.value)}
+                      className="ml-2 flex-1 max-w-[150px] px-2 py-1 text-sm border border-gray-300 rounded focus:ring-2 focus:ring-blue-500"
+                      placeholder={type === 'number' ? '0' : ''}
+                    />
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* デスクトップ用テーブル表示 */}
+      <div className="hidden sm:block overflow-x-auto -mx-5 px-5 sm:mx-0 sm:px-0">
+        <table className="w-full border-collapse">
           <thead>
             <tr>
               <th className="border border-gray-300 px-4 py-2 bg-blue-50 text-left font-semibold text-gray-700">

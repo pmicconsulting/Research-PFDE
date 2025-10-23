@@ -76,10 +76,10 @@ export function AutoSaveStatus({ lastSaveTime, saveStatus, isSaving }) {
   const display = getStatusDisplay();
 
   return (
-    <div className="fixed bottom-20 right-4 sm:bottom-4 sm:right-4 z-40">
-      <div className="bg-white rounded-lg shadow-lg border border-gray-200 px-3 py-2 sm:px-4 flex items-center space-x-2">
-        {display.icon}
-        <span className={`text-sm ${display.className}`}>
+    <div className="fixed top-14 right-2 sm:bottom-4 sm:top-auto sm:right-4 z-30">
+      <div className="bg-white/95 backdrop-blur rounded-lg shadow-lg border border-gray-200 px-2 py-1 sm:px-4 sm:py-2 flex items-center space-x-1 sm:space-x-2">
+        {display.icon && <span className="scale-75 sm:scale-100">{display.icon}</span>}
+        <span className={`text-xs sm:text-sm ${display.className}`}>
           {display.text}
         </span>
       </div>

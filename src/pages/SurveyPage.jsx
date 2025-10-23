@@ -415,9 +415,9 @@ const SurveyPage = () => {
         answeredQuestions={calculateProgress.answeredQuestions}
       />
 
-      <main className="flex-grow py-12 px-4">
+      <main className="flex-grow py-6 sm:py-12 px-2 sm:px-4 pb-20 sm:pb-12">
         <div className="max-w-4xl mx-auto">
-          <div className="bg-white rounded-2xl shadow-xl p-8 sm:p-12">
+          <div className="bg-white rounded-2xl shadow-xl p-4 sm:p-8 md:p-12">
             <form onSubmit={handleSubmit} className="space-y-6">
               {/* ブロック1: 基本情報（全員回答） */}
               <AccordionSection
