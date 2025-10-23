@@ -374,10 +374,17 @@ const SurveyPage = () => {
     setIsSubmitting(true)
 
     try {
-      console.log('送信開始 - formData:', formData)
+      // デバッグモード（開発環境のみ）
+      if (process.env.NODE_ENV === 'development') {
+        console.log('送信開始 - formData:', formData)
+      }
+
       // Supabaseに保存
       const result = await saveSurveyResponse(formData)
-      console.log('送信結果:', result)
+
+      if (process.env.NODE_ENV === 'development') {
+        console.log('送信結果:', result)
+      }
 
       if (result.success) {
         // メール送信
