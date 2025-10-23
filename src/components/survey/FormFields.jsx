@@ -2,8 +2,8 @@
 
 export const TextField = ({ label, name, value, onChange, required, type = 'text', placeholder }) => {
   return (
-    <div className="mb-6 p-5 border border-gray-200 rounded-lg bg-gray-50">
-      <label htmlFor={name} className="block text-base font-semibold text-blue-700 mb-3">
+    <div className="mb-4 sm:mb-6 p-3 sm:p-5 border border-gray-200 rounded-lg bg-gray-50">
+      <label htmlFor={name} className="block text-sm sm:text-base font-semibold text-blue-700 mb-2 sm:mb-3">
         {label}
         {required && <span className="text-red-500 ml-1">*</span>}
       </label>
@@ -51,8 +51,8 @@ export const SelectField = ({ label, name, value, onChange, required, options })
 
 export const RadioField = ({ label, name, value, onChange, required, options, note, hasHtml }) => {
   return (
-    <div className="mb-6 p-5 border border-gray-200 rounded-lg bg-gray-50">
-      <label className="block text-base font-semibold text-blue-700 mb-3">
+    <div className="mb-4 sm:mb-6 p-3 sm:p-5 border border-gray-200 rounded-lg bg-gray-50">
+      <label className="block text-sm sm:text-base font-semibold text-blue-700 mb-2 sm:mb-3">
         {hasHtml ? (
           <span>
             <span dangerouslySetInnerHTML={{ __html: label }} />
@@ -72,7 +72,7 @@ export const RadioField = ({ label, name, value, onChange, required, options, no
           const optionLabel = typeof option === 'object' ? option.label : option;
 
           return (
-            <label key={index} className="flex items-center cursor-pointer border border-gray-300 rounded-md hover:bg-blue-50 active:bg-blue-100 focus-within:ring-2 focus-within:ring-blue-500 focus-within:ring-offset-1 p-4 sm:p-3 bg-white transition-all touch-manipulation">
+            <label key={index} className="flex items-center cursor-pointer border border-gray-300 rounded-md hover:bg-blue-50 active:bg-blue-100 focus-within:ring-2 focus-within:ring-blue-500 focus-within:ring-offset-1 p-3 sm:p-3 bg-white transition-all touch-manipulation">
               <input
                 type="radio"
                 name={name}
@@ -80,9 +80,9 @@ export const RadioField = ({ label, name, value, onChange, required, options, no
                 checked={value === optionValue}
                 onChange={onChange}
                 required={required}
-                className="mr-3 text-blue-600 focus:ring-blue-500 w-4 h-4 sm:w-auto sm:h-auto"
+                className="mr-3 text-blue-600 focus:ring-blue-500 w-4 h-4 sm:w-auto sm:h-auto flex-shrink-0"
               />
-              <span className="text-gray-700 select-none">{optionLabel}</span>
+              <span className="text-sm sm:text-base text-gray-700 select-none">{optionLabel}</span>
             </label>
           );
         })}
@@ -93,14 +93,14 @@ export const RadioField = ({ label, name, value, onChange, required, options, no
 
 export const CheckboxField = ({ label, name, values, onChange, required, options, hasOther, otherValue, onOtherChange }) => {
   return (
-    <div className="mb-6 p-5 border border-gray-200 rounded-lg bg-gray-50">
-      <label className="block text-base font-semibold text-blue-700 mb-3">
+    <div className="mb-4 sm:mb-6 p-3 sm:p-5 border border-gray-200 rounded-lg bg-gray-50">
+      <label className="block text-sm sm:text-base font-semibold text-blue-700 mb-2 sm:mb-3">
         {label}
         {required && <span className="text-red-500 ml-1">*</span>}
       </label>
-      <div className="space-y-1">
+      <div className="space-y-1 max-h-[400px] sm:max-h-none overflow-y-auto">
         {options.map((option, index) => (
-          <label key={index} className="flex items-center cursor-pointer border border-gray-300 rounded-md hover:bg-blue-50 active:bg-blue-100 focus-within:ring-2 focus-within:ring-blue-500 focus-within:ring-offset-1 p-4 sm:p-3 bg-white transition-all touch-manipulation">
+          <label key={index} className="flex items-center cursor-pointer border border-gray-300 rounded-md hover:bg-blue-50 active:bg-blue-100 focus-within:ring-2 focus-within:ring-blue-500 focus-within:ring-offset-1 p-3 sm:p-3 bg-white transition-all touch-manipulation">
             <input
               type="checkbox"
               name={`${name}_${index}`}
@@ -109,11 +109,11 @@ export const CheckboxField = ({ label, name, values, onChange, required, options
               onChange={() => onChange(option)}
               className="mr-3 text-blue-600 focus:ring-blue-500 w-4 h-4 sm:w-auto sm:h-auto"
             />
-            <span className="text-gray-700 select-none">{option}</span>
+            <span className="text-sm sm:text-base text-gray-700 select-none">{option}</span>
           </label>
         ))}
         {hasOther && (
-          <div className="flex items-center border border-gray-300 rounded-md p-3 bg-white">
+          <div className="flex items-center border border-gray-300 rounded-md p-3 bg-white sticky bottom-0">
             <input
               type="checkbox"
               name={`${name}_other`}

@@ -6,6 +6,9 @@ const SurveyCompanion = ({ progress, currentBlock, totalQuestions, answeredQuest
   const [isVisible, setIsVisible] = useState(true);
   const [isAnimating, setIsAnimating] = useState(false);
 
+  // モバイルではデフォルトで非表示
+  const [isMobileHidden, setIsMobileHidden] = useState(false);
+
   // 女性トラックドライバーキャラクター画像URL
   const characterImageUrl = 'https://t.pimg.jp/112/106/345/1/112106345.jpg';
 
@@ -55,9 +58,22 @@ const SurveyCompanion = ({ progress, currentBlock, totalQuestions, answeredQuest
     }
   }, [progress, currentBlock]);
 
+  // モバイルで完全に非表示にする場合
+  if (isMobileHidden && window.innerWidth < 640) {
+    return (
+      <button
+        onClick={() => setIsMobileHidden(false)}
+        className="fixed bottom-4 right-4 z-40 bg-gradient-to-r from-pink-500 to-purple-600 text-white rounded-full p-3 shadow-lg"
+        aria-label="アシスタントを表示"
+      >
+        <SparklesIcon className="h-5 w-5" />
+      </button>
+    );
+  }
+
   return (
-    <div className={`fixed bottom-2 right-2 sm:bottom-6 sm:right-6 z-40 transition-all duration-300 ${isVisible ? 'translate-x-0' : 'translate-x-[calc(100%+2rem)]'}`}>
-      <div className="flex items-end space-x-1 sm:space-x-4 scale-85 sm:scale-100 origin-bottom-right">
+    <div className={`fixed bottom-2 right-2 sm:bottom-6 sm:right-6 z-35 transition-all duration-300 ${isVisible ? 'translate-x-0' : 'translate-x-[calc(100%+2rem)]'}`}>
+      <div className="flex items-end space-x-1 sm:space-x-4 scale-75 sm:scale-100 origin-bottom-right">
         {/* メッセージバブル */}
         {isVisible && (
           <div className={`bg-white rounded-2xl shadow-xl border border-gray-100 p-3 sm:p-5 max-w-[260px] sm:max-w-sm transition-all duration-300 ${isAnimating ? 'scale-95 opacity-50' : 'scale-100 opacity-100'}`}>
@@ -117,11 +133,17 @@ const SurveyCompanion = ({ progress, currentBlock, totalQuestions, answeredQuest
 
           {/* 表示/非表示トグルボタン */}
           <button
-            onClick={() => setIsVisible(!isVisible)}
-            className="absolute -top-2 -right-2 bg-white rounded-full p-3 sm:p-2 shadow-md hover:shadow-lg active:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-500 focus-visible:ring-offset-2 transition-all hover:scale-110 active:scale-100 touch-manipulation"
+            onClick={() => {
+              if (window.innerWidth < 640) {
+                setIsMobileHidden(true);
+              } else {
+                setIsVisible(!isVisible);
+              }
+            }}
+            className="absolute -top-2 -right-2 bg-white rounded-full p-2 sm:p-2 shadow-md hover:shadow-lg active:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-500 focus-visible:ring-offset-2 transition-all hover:scale-110 active:scale-100 touch-manipulation"
             aria-label={isVisible ? 'アシスタントを非表示' : 'アシスタントを表示'}
           >
-            <XMarkIcon className={`h-5 w-5 sm:h-4 sm:w-4 text-gray-600 transform transition-transform ${isVisible ? 'rotate-0' : 'rotate-45'}`} />
+            <XMarkIcon className={`h-4 w-4 text-gray-600 transform transition-transform ${isVisible ? 'rotate-0' : 'rotate-45'}`} />
           </button>
         </div>
       </div>
