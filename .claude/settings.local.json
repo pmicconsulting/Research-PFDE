@@ -15,7 +15,8 @@
       "Bash(npm audit:*)",
       "Bash(npm install:*)",
       "Bash(npm run dev)",
-      "Bash(vercel --version:*)"
+      "Bash(vercel --version:*)",
+      "Bash(git checkout:*)"
     ],
     "deny": [],
     "ask": []

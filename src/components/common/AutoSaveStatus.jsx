@@ -76,8 +76,8 @@ export function AutoSaveStatus({ lastSaveTime, saveStatus, isSaving }) {
   const display = getStatusDisplay();
 
   return (
-    <div className="fixed bottom-4 right-4 z-40">
-      <div className="bg-white rounded-lg shadow-lg border border-gray-200 px-4 py-2 flex items-center space-x-2">
+    <div className="fixed bottom-20 right-4 sm:bottom-4 sm:right-4 z-40">
+      <div className="bg-white rounded-lg shadow-lg border border-gray-200 px-3 py-2 sm:px-4 flex items-center space-x-2">
         {display.icon}
         <span className={`text-sm ${display.className}`}>
           {display.text}

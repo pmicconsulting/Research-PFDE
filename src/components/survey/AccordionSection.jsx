@@ -8,12 +8,12 @@ const AccordionSection = ({ title, children, isOpen, onToggle, disabled = false 
         type="button"
         onClick={onToggle}
         disabled={disabled}
-        className={`w-full px-6 py-4 flex items-center justify-between transition-all duration-200 ${
+        className={`w-full px-6 py-5 sm:py-4 flex items-center justify-between transition-all duration-200 touch-manipulation focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-blue-500 ${
           disabled
             ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
             : isOpen
-            ? 'bg-blue-50 text-blue-700 hover:bg-blue-100'
-            : 'bg-white text-gray-700 hover:bg-gray-50'
+            ? 'bg-blue-50 text-blue-700 hover:bg-blue-100 active:bg-blue-200'
+            : 'bg-white text-gray-700 hover:bg-gray-50 active:bg-gray-100'
         }`}
       >
         <h3 className="text-lg font-semibold text-left">{title}</h3>

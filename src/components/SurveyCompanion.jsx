@@ -56,11 +56,11 @@ const SurveyCompanion = ({ progress, currentBlock, totalQuestions, answeredQuest
   }, [progress, currentBlock]);
 
   return (
-    <div className={`fixed bottom-6 right-6 z-40 transition-all duration-300 ${isVisible ? 'translate-x-0' : 'translate-x-[calc(100%+2rem)]'}`}>
-      <div className="flex items-end space-x-4">
+    <div className={`fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-40 transition-all duration-300 ${isVisible ? 'translate-x-0' : 'translate-x-[calc(100%+2rem)]'}`}>
+      <div className="flex items-end space-x-2 sm:space-x-4">
         {/* メッセージバブル */}
         {isVisible && (
-          <div className={`bg-white rounded-2xl shadow-xl border border-gray-100 p-5 max-w-sm transition-all duration-300 ${isAnimating ? 'scale-95 opacity-50' : 'scale-100 opacity-100'}`}>
+          <div className={`bg-white rounded-2xl shadow-xl border border-gray-100 p-4 sm:p-5 max-w-[280px] sm:max-w-sm transition-all duration-300 ${isAnimating ? 'scale-95 opacity-50' : 'scale-100 opacity-100'}`}>
             <div className="flex items-start space-x-3">
               <div className="bg-gradient-to-br from-yellow-300 to-orange-400 rounded-full p-1.5">
                 <SparklesIcon className="h-5 w-5 text-white flex-shrink-0" />
@@ -94,7 +94,7 @@ const SurveyCompanion = ({ progress, currentBlock, totalQuestions, answeredQuest
 
         {/* キャラクターアバター */}
         <div className="relative">
-          <div className="relative w-20 h-20 rounded-full shadow-lg overflow-hidden border-3 border-white">
+          <div className="relative w-16 h-16 sm:w-20 sm:h-20 rounded-full shadow-lg overflow-hidden border-3 border-white">
             <img
               src={characterImageUrl}
               alt="女性トラックドライバーアシスタント"
@@ -118,10 +118,10 @@ const SurveyCompanion = ({ progress, currentBlock, totalQuestions, answeredQuest
           {/* 表示/非表示トグルボタン */}
           <button
             onClick={() => setIsVisible(!isVisible)}
-            className="absolute -top-2 -right-2 bg-white rounded-full p-1.5 shadow-md hover:shadow-lg transition-all hover:scale-110"
+            className="absolute -top-2 -right-2 bg-white rounded-full p-3 sm:p-2 shadow-md hover:shadow-lg active:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-500 focus-visible:ring-offset-2 transition-all hover:scale-110 active:scale-100 touch-manipulation"
             aria-label={isVisible ? 'アシスタントを非表示' : 'アシスタントを表示'}
           >
-            <XMarkIcon className={`h-4 w-4 text-gray-600 transform transition-transform ${isVisible ? 'rotate-0' : 'rotate-45'}`} />
+            <XMarkIcon className={`h-5 w-5 sm:h-4 sm:w-4 text-gray-600 transform transition-transform ${isVisible ? 'rotate-0' : 'rotate-45'}`} />
           </button>
         </div>
       </div>

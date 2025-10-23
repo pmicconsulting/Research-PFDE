@@ -98,10 +98,10 @@ const QuestionModal = ({ isOpen, onClose, questionId, questionText, onSubmit }) 
                     </div>
                     <button
                       type="button"
-                      className="rounded-full bg-white/20 p-2 text-white hover:bg-white/30 transition-colors"
+                      className="rounded-full bg-white/20 p-3 sm:p-2 text-white hover:bg-white/30 active:bg-white/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-purple-600 transition-colors touch-manipulation"
                       onClick={handleClose}
                     >
-                      <XMarkIcon className="h-5 w-5" />
+                      <XMarkIcon className="h-6 w-6 sm:h-5 sm:w-5" />
                     </button>
                   </div>
                 </div>

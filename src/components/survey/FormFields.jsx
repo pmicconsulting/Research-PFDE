@@ -70,7 +70,7 @@ export const RadioField = ({ label, name, value, onChange, required, options, no
           const optionLabel = typeof option === 'object' ? option.label : option;
 
           return (
-            <label key={index} className="flex items-center cursor-pointer border border-gray-300 rounded-md hover:bg-blue-50 p-3 bg-white transition-colors">
+            <label key={index} className="flex items-center cursor-pointer border border-gray-300 rounded-md hover:bg-blue-50 active:bg-blue-100 focus-within:ring-2 focus-within:ring-blue-500 focus-within:ring-offset-1 p-4 sm:p-3 bg-white transition-all touch-manipulation">
               <input
                 type="radio"
                 name={name}
@@ -78,9 +78,9 @@ export const RadioField = ({ label, name, value, onChange, required, options, no
                 checked={value === optionValue}
                 onChange={onChange}
                 required={required}
-                className="mr-3 text-blue-600 focus:ring-blue-500"
+                className="mr-3 text-blue-600 focus:ring-blue-500 w-4 h-4 sm:w-auto sm:h-auto"
               />
-              <span className="text-gray-700">{optionLabel}</span>
+              <span className="text-gray-700 select-none">{optionLabel}</span>
             </label>
           );
         })}
@@ -98,16 +98,16 @@ export const CheckboxField = ({ label, name, values, onChange, required, options
       </label>
       <div className="space-y-1">
         {options.map((option, index) => (
-          <label key={index} className="flex items-center cursor-pointer border border-gray-300 rounded-md hover:bg-blue-50 p-3 bg-white transition-colors">
+          <label key={index} className="flex items-center cursor-pointer border border-gray-300 rounded-md hover:bg-blue-50 active:bg-blue-100 focus-within:ring-2 focus-within:ring-blue-500 focus-within:ring-offset-1 p-4 sm:p-3 bg-white transition-all touch-manipulation">
             <input
               type="checkbox"
               name={`${name}_${index}`}
               value={option}
               checked={values.includes(option)}
               onChange={() => onChange(option)}
-              className="mr-3 text-blue-600 focus:ring-blue-500"
+              className="mr-3 text-blue-600 focus:ring-blue-500 w-4 h-4 sm:w-auto sm:h-auto"
             />
-            <span className="text-gray-700">{option}</span>
+            <span className="text-gray-700 select-none">{option}</span>
           </label>
         ))}
         {hasOther && (
@@ -194,8 +194,8 @@ export const GridField = ({ label, name, rows, columns, values, onChange, requir
         {required && <span className="text-red-500 ml-1">*</span>}
       </label>
       {note && <p className="text-sm text-gray-600 mb-3">{note}</p>}
-      <div className="overflow-x-auto">
-        <table className="w-full border-collapse">
+      <div className="overflow-x-auto -mx-5 px-5 sm:mx-0 sm:px-0">
+        <table className="w-full border-collapse min-w-[600px]">
           <thead>
             <tr>
               <th className="border border-gray-300 px-4 py-2 bg-blue-50 text-left font-semibold text-gray-700">
