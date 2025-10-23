@@ -59,7 +59,7 @@ const SurveyCompanion = ({ progress, currentBlock, totalQuestions, answeredQuest
   }, [progress, currentBlock]);
 
   // モバイルで完全に非表示にする場合
-  if (isMobileHidden && window.innerWidth < 640) {
+  if (isMobileHidden && typeof window !== 'undefined' && window.innerWidth < 640) {
     return (
       <button
         onClick={() => setIsMobileHidden(false)}
@@ -134,7 +134,7 @@ const SurveyCompanion = ({ progress, currentBlock, totalQuestions, answeredQuest
           {/* 表示/非表示トグルボタン */}
           <button
             onClick={() => {
-              if (window.innerWidth < 640) {
+              if (typeof window !== 'undefined' && window.innerWidth < 640) {
                 setIsMobileHidden(true);
               } else {
                 setIsVisible(!isVisible);

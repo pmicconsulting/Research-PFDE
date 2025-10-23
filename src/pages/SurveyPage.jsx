@@ -374,8 +374,10 @@ const SurveyPage = () => {
     setIsSubmitting(true)
 
     try {
+      console.log('送信開始 - formData:', formData)
       // Supabaseに保存
       const result = await saveSurveyResponse(formData)
+      console.log('送信結果:', result)
 
       if (result.success) {
         // メール送信
@@ -394,10 +396,13 @@ const SurveyPage = () => {
             email: formData.email
           }
         })
+      } else {
+        console.error('送信失敗:', result.error)
+        alert(`送信に失敗しました: ${result.error || '不明なエラー'}`)
       }
     } catch (error) {
-      console.error('送信エラー:', error)
-      alert('送信中にエラーが発生しました。もう一度お試しください。')
+      console.error('送信エラー - 詳細:', error)
+      alert(`送信中にエラーが発生しました: ${error.message || '不明なエラー'}`)
     } finally {
       setIsSubmitting(false)
     }
