@@ -98,7 +98,7 @@ export const CheckboxField = ({ label, name, values, onChange, required, options
         {label}
         {required && <span className="text-red-500 ml-1">*</span>}
       </label>
-      <div className="space-y-1 max-h-[400px] sm:max-h-none overflow-y-auto">
+      <div className="space-y-1">
         {options.map((option, index) => (
           <label key={index} className="flex items-center cursor-pointer border border-gray-300 rounded-md hover:bg-blue-50 active:bg-blue-100 focus-within:ring-2 focus-within:ring-blue-500 focus-within:ring-offset-1 p-3 sm:p-3 bg-white transition-all touch-manipulation">
             <input
@@ -113,7 +113,7 @@ export const CheckboxField = ({ label, name, values, onChange, required, options
           </label>
         ))}
         {hasOther && (
-          <div className="flex items-center border border-gray-300 rounded-md p-3 bg-white sticky bottom-0">
+          <div className="flex items-center border border-gray-300 rounded-md p-3 bg-white">
             <input
               type="checkbox"
               name={`${name}_other`}

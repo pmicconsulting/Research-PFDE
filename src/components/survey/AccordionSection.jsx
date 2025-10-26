@@ -28,7 +28,7 @@ const AccordionSection = ({ title, children, isOpen, onToggle, disabled = false 
 
       <div
         className={`transition-all duration-300 ease-in-out ${
-          isOpen ? 'max-h-[5000px] opacity-100' : 'max-h-0 opacity-0 overflow-hidden'
+          isOpen ? 'max-h-[50000px] opacity-100' : 'max-h-0 opacity-0 overflow-hidden'
         }`}
       >
         {isOpen && (
