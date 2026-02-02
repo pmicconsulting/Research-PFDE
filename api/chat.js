@@ -89,16 +89,35 @@ const handler = async (req, res) => {
     });
 
     if (!response.ok) {
-      const errorData = await response.json().catch(() => ({}));
-      console.error('Claude API error:', response.status, errorData);
+      let errorMessage = response.statusText;
+      try {
+        const errorText = await response.text();
+        console.error('Claude API error response:', errorText);
+        const errorData = JSON.parse(errorText);
+        errorMessage = errorData.error?.message || errorMessage;
+      } catch (e) {
+        console.error('Failed to parse error response');
+      }
+      console.error('Claude API error:', response.status, errorMessage);
       return res.status(response.status).json({
         success: false,
         error: 'AI応答の取得に失敗しました',
-        details: errorData.error?.message || response.statusText
+        details: errorMessage
       });
     }
 
-    const data = await response.json();
+    const responseText = await response.text();
+    let data;
+    try {
+      data = JSON.parse(responseText);
+    } catch (e) {
+      console.error('Failed to parse response:', responseText.substring(0, 200));
+      return res.status(500).json({
+        success: false,
+        error: 'AI応答の解析に失敗しました',
+        details: 'Invalid JSON response'
+      });
+    }
     console.log('Claude API response received');
 
     return res.status(200).json({
