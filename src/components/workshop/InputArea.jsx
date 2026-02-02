@@ -7,7 +7,7 @@ const InputArea = ({ onSend, isLoading }) => {
   useEffect(() => {
     if (textareaRef.current) {
       textareaRef.current.style.height = 'auto';
-      textareaRef.current.style.height = Math.min(textareaRef.current.scrollHeight, 150) + 'px';
+      textareaRef.current.style.height = Math.max(textareaRef.current.scrollHeight, 120) + 'px';
     }
   }, [input]);
 
@@ -37,8 +37,8 @@ const InputArea = ({ onSend, isLoading }) => {
             onKeyDown={handleKeyDown}
             placeholder="メッセージを入力... (Shift+Enterで改行)"
             disabled={isLoading}
-            rows={1}
-            className="w-full px-4 py-3 border border-gray-300 rounded-xl resize-none focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent disabled:bg-gray-100 disabled:cursor-not-allowed transition-all"
+            rows={5}
+            className="w-full px-4 py-3 border border-gray-300 rounded-xl resize-none focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent disabled:bg-gray-100 disabled:cursor-not-allowed transition-all min-h-[120px]"
           />
         </div>
         <button
