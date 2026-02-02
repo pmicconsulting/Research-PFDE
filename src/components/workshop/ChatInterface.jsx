@@ -111,7 +111,7 @@ const ChatInterface = () => {
             </div>
             <div>
               <h2 className="font-bold text-lg">AI チャット</h2>
-              <p className="text-sm text-purple-200">Claude Opus 4.5</p>
+              <p className="text-sm text-purple-200">Claude Sonnet 4</p>
             </div>
           </div>
           <button
