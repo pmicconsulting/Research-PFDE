@@ -11,6 +11,9 @@
   "functions": {
     "api/send-email.js": {
       "maxDuration": 10
+    },
+    "api/chat.js": {
+      "maxDuration": 60
     }
   },
   "headers": [
@@ -48,7 +51,7 @@
         },
         {
           "key": "Content-Security-Policy",
-          "value": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self' https://dfmgnedobufhvkoemxtu.supabase.co https://research202510.jta.support https://research202511.jta.support"
+          "value": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self' https://dfmgnedobufhvkoemxtu.supabase.co https://research202510.jta.support https://research202511.jta.support https://api.anthropic.com"
         },
         {
           "key": "Cache-Control",
