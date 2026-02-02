@@ -38,9 +38,10 @@ const WELCOME_MESSAGE = {
   timestamp: new Date().toISOString()
 };
 
-const ChatInterface = () => {
+const ChatInterface = ({ promptToSet }) => {
   const [messages, setMessages] = useState([WELCOME_MESSAGE]);
   const [isLoading, setIsLoading] = useState(false);
+  const [inputValue, setInputValue] = useState('');
   const messagesEndRef = useRef(null);
 
   const scrollToBottom = () => {
@@ -50,6 +51,13 @@ const ChatInterface = () => {
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
+
+  // 外部からのプロンプトセット
+  useEffect(() => {
+    if (promptToSet) {
+      setInputValue(promptToSet);
+    }
+  }, [promptToSet]);
 
   const handleSend = async (content) => {
     const userMessage = {
@@ -153,7 +161,12 @@ const ChatInterface = () => {
       </div>
 
       {/* Input */}
-      <InputArea onSend={handleSend} isLoading={isLoading} />
+      <InputArea
+        onSend={handleSend}
+        isLoading={isLoading}
+        value={inputValue}
+        onChange={setInputValue}
+      />
     </div>
   );
 };

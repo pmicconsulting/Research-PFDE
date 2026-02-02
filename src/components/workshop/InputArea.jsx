@@ -1,7 +1,6 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useRef, useEffect } from 'react';
 
-const InputArea = ({ onSend, isLoading }) => {
-  const [input, setInput] = useState('');
+const InputArea = ({ onSend, isLoading, value, onChange }) => {
   const textareaRef = useRef(null);
 
   useEffect(() => {
@@ -9,13 +8,22 @@ const InputArea = ({ onSend, isLoading }) => {
       textareaRef.current.style.height = 'auto';
       textareaRef.current.style.height = Math.max(textareaRef.current.scrollHeight, 120) + 'px';
     }
-  }, [input]);
+  }, [value]);
+
+  // 外部から値がセットされたらテキストエリアにフォーカス
+  useEffect(() => {
+    if (value && textareaRef.current) {
+      textareaRef.current.focus();
+      // カーソルを末尾に移動
+      textareaRef.current.setSelectionRange(value.length, value.length);
+    }
+  }, [value]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (input.trim() && !isLoading) {
-      onSend(input.trim());
-      setInput('');
+    if (value.trim() && !isLoading) {
+      onSend(value.trim());
+      onChange('');
     }
   };
 
@@ -32,10 +40,10 @@ const InputArea = ({ onSend, isLoading }) => {
         <div className="flex-1 relative">
           <textarea
             ref={textareaRef}
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
+            value={value}
+            onChange={(e) => onChange(e.target.value)}
             onKeyDown={handleKeyDown}
-            placeholder="メッセージを入力... (Shift+Enterで改行)"
+            placeholder="メッセージを入力... (Shift+Enterで改行)&#10;左のメニューからプロンプト例を選択できます"
             disabled={isLoading}
             rows={5}
             className="w-full px-4 py-3 border border-gray-300 rounded-xl resize-none focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent disabled:bg-gray-100 disabled:cursor-not-allowed transition-all min-h-[120px]"
@@ -43,7 +51,7 @@ const InputArea = ({ onSend, isLoading }) => {
         </div>
         <button
           type="submit"
-          disabled={!input.trim() || isLoading}
+          disabled={!value.trim() || isLoading}
           className="px-6 py-3 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-xl font-medium hover:from-purple-700 hover:to-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center gap-2 shadow-lg hover:shadow-xl"
         >
           {isLoading ? (

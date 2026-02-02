@@ -1,9 +1,22 @@
-import React from 'react';
+import React, { useState, useRef } from 'react';
+import { Toaster } from 'react-hot-toast';
 import ChatInterface from '../components/workshop/ChatInterface';
+import WorkshopMenu from '../components/workshop/WorkshopMenu';
 
 const WorkshopPage = () => {
+  const [promptToSet, setPromptToSet] = useState('');
+  const chatRef = useRef(null);
+
+  const handlePromptSelect = (prompt) => {
+    setPromptToSet(prompt);
+    // プロンプトがセットされたらリセット用にタイマーをセット
+    setTimeout(() => setPromptToSet(''), 100);
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-indigo-50">
+      <Toaster position="top-center" />
+
       {/* Header */}
       <header className="bg-white shadow-sm border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 py-4">
@@ -32,8 +45,14 @@ const WorkshopPage = () => {
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 py-6">
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-          {/* Sidebar - Tips */}
+          {/* Sidebar */}
           <aside className="lg:col-span-1 space-y-4">
+            {/* ワークショップメニュー */}
+            <div className="bg-white rounded-xl shadow-md p-4 border border-gray-100">
+              <WorkshopMenu onPromptSelect={handlePromptSelect} />
+            </div>
+
+            {/* 使い方のヒント */}
             <div className="bg-white rounded-xl shadow-md p-5 border border-gray-100">
               <h3 className="font-bold text-gray-800 mb-3 flex items-center gap-2">
                 <svg className="w-5 h-5 text-purple-600" fill="currentColor" viewBox="0 0 20 20">
@@ -44,33 +63,20 @@ const WorkshopPage = () => {
               <ul className="space-y-2 text-sm text-gray-600">
                 <li className="flex items-start gap-2">
                   <span className="text-purple-500 mt-1">•</span>
-                  <span>具体的な質問をすると、より良い回答が得られます</span>
+                  <span>左のメニューから体験したい項目を選択</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-purple-500 mt-1">•</span>
-                  <span>回答が不十分な場合は「もっと詳しく」と追加で質問してみましょう</span>
+                  <span>「使用する」でプロンプトを入力欄にセット</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-purple-500 mt-1">•</span>
-                  <span>役割を与えると専門的な回答が得られます（例：「あなたは〇〇の専門家です」）</span>
+                  <span>必要に応じて内容を編集して送信</span>
                 </li>
               </ul>
             </div>
 
-            <div className="bg-gradient-to-br from-purple-600 to-indigo-600 rounded-xl shadow-md p-5 text-white">
-              <h3 className="font-bold mb-3 flex items-center gap-2">
-                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                  <path d="M11 3a1 1 0 10-2 0v1a1 1 0 102 0V3zM15.657 5.757a1 1 0 00-1.414-1.414l-.707.707a1 1 0 001.414 1.414l.707-.707zM18 10a1 1 0 01-1 1h-1a1 1 0 110-2h1a1 1 0 011 1zM5.05 6.464A1 1 0 106.464 5.05l-.707-.707a1 1 0 00-1.414 1.414l.707.707zM5 10a1 1 0 01-1 1H3a1 1 0 110-2h1a1 1 0 011 1z" />
-                </svg>
-                お試し例文
-              </h3>
-              <div className="space-y-2 text-sm">
-                <p className="bg-white/20 rounded-lg px-3 py-2">「会議の議事録を要約して」</p>
-                <p className="bg-white/20 rounded-lg px-3 py-2">「メールの下書きを作成して」</p>
-                <p className="bg-white/20 rounded-lg px-3 py-2">「アイデアを5つ提案して」</p>
-              </div>
-            </div>
-
+            {/* 注意事項 */}
             <div className="bg-amber-50 border border-amber-200 rounded-xl p-4">
               <h3 className="font-bold text-amber-800 mb-2 flex items-center gap-2">
                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
@@ -87,7 +93,7 @@ const WorkshopPage = () => {
           {/* Chat Area */}
           <div className="lg:col-span-3">
             <div className="bg-white rounded-xl shadow-lg overflow-hidden h-[calc(100vh-200px)] min-h-[500px] border border-gray-100">
-              <ChatInterface />
+              <ChatInterface ref={chatRef} promptToSet={promptToSet} />
             </div>
           </div>
         </div>
