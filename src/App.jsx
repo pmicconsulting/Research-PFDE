@@ -1,7 +1,7 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import WorkshopPage from './pages/WorkshopPage'
-import GuidePage from './pages/GuidePage'
-import AIServicesPage from './pages/AIServicesPage'
+// import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+// import WorkshopPage from './pages/WorkshopPage'
+// import GuidePage from './pages/GuidePage'
+// import AIServicesPage from './pages/AIServicesPage'
 
 // 調査ページ（現在は使用しない）
 // import TopPage from './pages/TopPage'
@@ -11,20 +11,11 @@ import AIServicesPage from './pages/AIServicesPage'
 
 function App() {
   return (
-    <Router>
-      <Routes>
-        {/* AIワークショップページ */}
-        <Route path="/" element={<WorkshopPage />} />
-        <Route path="/guide" element={<GuidePage />} />
-        <Route path="/ai-services" element={<AIServicesPage />} />
-
-        {/* 調査ページ（現在は使用しない）
-        <Route path="/survey" element={<SurveyPage />} />
-        <Route path="/completion" element={<CompletionPage />} />
-        <Route path="/test-domain" element={<TestDomain />} />
-        */}
-      </Routes>
-    </Router>
+    <div className="min-h-screen bg-gray-100 flex items-center justify-center">
+      <div className="text-center text-gray-500">
+        <p>ただいま準備中です</p>
+      </div>
+    </div>
   )
 }
 
