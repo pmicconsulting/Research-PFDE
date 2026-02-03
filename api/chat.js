@@ -81,7 +81,7 @@ const handler = async (req, res) => {
         'anthropic-version': '2023-06-01'
       },
       body: JSON.stringify({
-        model: 'claude-haiku-4-20250129',
+        model: 'claude-haiku-4-5-20251001',
         max_tokens: 2048,
         system: systemPrompt || '生成AI利用体験ワークショップのアシスタントです。親切で分かりやすく回答してください。日本語で応答してください。',
         messages: messages
