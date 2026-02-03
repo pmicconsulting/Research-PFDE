@@ -1,5 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import WorkshopPage from './pages/WorkshopPage'
+import GuidePage from './pages/GuidePage'
+import AIServicesPage from './pages/AIServicesPage'
 
 // 調査ページ（現在は使用しない）
 // import TopPage from './pages/TopPage'
@@ -13,6 +15,8 @@ function App() {
       <Routes>
         {/* AIワークショップページ */}
         <Route path="/" element={<WorkshopPage />} />
+        <Route path="/guide" element={<GuidePage />} />
+        <Route path="/ai-services" element={<AIServicesPage />} />
 
         {/* 調査ページ（現在は使用しない）
         <Route path="/survey" element={<SurveyPage />} />

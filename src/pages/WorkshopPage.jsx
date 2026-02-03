@@ -1,4 +1,5 @@
 import React, { useState, useRef } from 'react';
+import { Link } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import ChatInterface from '../components/workshop/ChatInterface';
 import WorkshopMenu from '../components/workshop/WorkshopMenu';
@@ -32,7 +33,19 @@ const WorkshopPage = () => {
                 <p className="text-sm text-gray-500">Generative AI Experience Workshop</p>
               </div>
             </div>
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-4">
+              <Link
+                to="/guide"
+                className="text-sm text-purple-600 hover:text-purple-800 font-medium transition-colors"
+              >
+                ガイド
+              </Link>
+              <Link
+                to="/ai-services"
+                className="text-sm text-purple-600 hover:text-purple-800 font-medium transition-colors"
+              >
+                生成AIサービス一覧
+              </Link>
               <span className="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm font-medium flex items-center gap-1">
                 <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
                 オンライン
@@ -106,6 +119,14 @@ const WorkshopPage = () => {
             <p className="text-sm">
               Powered by Claude AI (Anthropic)
             </p>
+            <div className="flex items-center gap-6 text-sm">
+              <Link to="/guide" className="text-gray-400 hover:text-white transition-colors">
+                ガイド
+              </Link>
+              <Link to="/ai-services" className="text-gray-400 hover:text-white transition-colors">
+                生成AIサービス一覧
+              </Link>
+            </div>
             <p className="text-sm text-gray-500">
               &copy; 2025 AI Workshop. All rights reserved.
             </p>
